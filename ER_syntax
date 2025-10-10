@@ -1,0 +1,28 @@
+@startchen
+entity Ciudad {
+}
+entity Cine {
+}
+entity Sala {
+}
+entity Asiento {
+}
+entity Dulceria {
+}
+entity Categoria {
+}
+entity Dulce {
+}
+entity Pelicula {
+}
+entity Funcion {
+}
+entity Persona {
+}
+entity Miembro {
+}
+entity Personal {
+}
+entity Funcion_sala {
+}
+@endchen
