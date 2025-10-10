@@ -1,5 +1,7 @@
 @startchen
 entity Ciudad {
+idciudad : INT <<key>>
+nombre : STRING
 }
 entity Cine {
 }
