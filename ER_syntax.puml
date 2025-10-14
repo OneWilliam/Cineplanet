@@ -13,6 +13,10 @@ entity Sala {
     filas : INT
     columnas : INT
 }
+entity Formato {
+    id_formato : INT <<key>>
+    nombre : STRING
+}
 entity Asiento {
     id_sala : INT FK
     fila : INT PK
