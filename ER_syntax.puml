@@ -34,7 +34,6 @@ entity Pelicula {
 entity Funcion {
     id_funcion : INT <<key>>
     hora_inicio : STRING
-    id_sala : INT FK
     id_pelicula : INT FK
 }
 entity Cliente {
@@ -54,5 +53,7 @@ entity Miembro {
 entity Personal {
 }
 entity Funcion_sala {
+    id_funcion : INT PK
+    id_sala : INT PK
 }
 @endchen
