@@ -16,7 +16,11 @@ entity Asiento {
     fila : INT PK
     columna : INT PK
 }
-entity AsientoSala {
+entity FuncionAsiento {
+    idfuncion : INT FK
+    fila : INT PK
+    columna : INT PK
+    estado : INT PK
 }
 entity Dulceria {
 }
