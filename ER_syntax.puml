@@ -4,6 +4,7 @@ idciudad : INT <<key>>
 nombre : STRING
 }
 entity Cine {
+idcine : INT <<key>>
 }
 entity Sala {
 }
