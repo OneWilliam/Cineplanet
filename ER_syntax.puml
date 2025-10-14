@@ -1,4 +1,4 @@
-@startchen
+@startchen cineplanet
 entity Ciudad {
 idciudad : INT <<key>>
 nombre : STRING
