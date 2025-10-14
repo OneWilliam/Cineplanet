@@ -8,6 +8,7 @@ entity Cine {
     id_cine : INT <<key>>
 }
 entity Sala {
+    id_cine : INT FK
     id_sala : INT <<key>>
     filas : INT
     columnas : INT
@@ -24,13 +25,17 @@ entity FuncionAsiento {
     estado : INT FK
 }
 entity Dulceria {
+    id_cine : INT FK
+    id_dulceria : INT <<key>>
 }
 entity Categoria {
+    id_categoria : INT <<key>>
+    nombre : STRING
 }
 entity Dulce {
 }
 entity Pelicula {
-    id_pelicula : INT PK
+    id_pelicula : INT <<key>>
     nombre : STRING
     duracion : INT
     id_formato : INT FK
