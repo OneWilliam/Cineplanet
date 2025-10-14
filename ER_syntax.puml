@@ -1,14 +1,22 @@
 @startchen cineplanet
 entity Ciudad {
-idciudad : INT <<key>>
-nombre : STRING
+    idciudad : INT <<key>>
+    nombre : STRING
 }
 entity Cine {
-idcine : INT <<key>>
+    idcine : INT <<key>>
 }
 entity Sala {
+    idsala : INT <<key>>
+    filas : INT
+    columnas : INT
 }
 entity Asiento {
+    idsala : INT FK
+    fila : INT PK
+    columna : INT PK
+}
+entity AsientoSala {
 }
 entity Dulceria {
 }
