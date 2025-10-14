@@ -33,6 +33,10 @@ entity Categoria {
     nombre : STRING
 }
 entity Dulce {
+    id_categoria : INT FK
+    id_dulce : INT <<key>>
+    nombre : STRING
+    precio : INT
 }
 entity Pelicula {
     id_pelicula : INT <<key>>
