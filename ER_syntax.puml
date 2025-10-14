@@ -30,6 +30,10 @@ entity Categoria {
 entity Dulce {
 }
 entity Pelicula {
+    id_pelicula : INT PK
+    nombre : STRING
+    duracion : INT
+    id_formato : INT FK
 }
 entity Funcion {
     id_funcion : INT <<key>>
@@ -52,7 +56,7 @@ entity Miembro {
 }
 entity Personal {
 }
-entity Funcion_sala {
+entity FuncionSala {
     id_funcion : INT PK
     id_sala : INT PK
 }
