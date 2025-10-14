@@ -1,23 +1,24 @@
 @startchen cineplanet
 entity Ciudad {
-    idciudad : INT <<key>>
+    id_ciudad : INT <<key>>
     nombre : STRING
 }
 entity Cine {
-    idcine : INT <<key>>
+    id_ciudad : INT FK
+    id_cine : INT <<key>>
 }
 entity Sala {
-    idsala : INT <<key>>
+    id_sala : INT <<key>>
     filas : INT
     columnas : INT
 }
 entity Asiento {
-    idsala : INT FK
+    id_sala : INT FK
     fila : INT PK
     columna : INT PK
 }
 entity FuncionAsiento {
-    idfuncion : INT FK
+    id_funcion : INT FK
     fila : INT PK
     columna : INT PK
     estado : INT PK
@@ -31,6 +32,10 @@ entity Dulce {
 entity Pelicula {
 }
 entity Funcion {
+    id_funcion : INT PK
+    hora_inicio : STRING
+    id_sala : INT FK
+    id_pelicula : INT FK
 }
 entity Persona {
 }
