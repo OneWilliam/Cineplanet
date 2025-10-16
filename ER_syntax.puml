@@ -11,8 +11,8 @@ entity Cine {
 relationship Se_encuentra {
 }
 
-Cine -1- Se_encuentra
-Se_encuentra -N- Ciudad
+Cine -N- Se_encuentra
+Se_encuentra -1- Ciudad
 
 entity Sala {
     id_cine : INT FK
@@ -20,6 +20,13 @@ entity Sala {
     filas : INT
     columnas : INT
 }
+
+relationship Contiene {
+}
+
+Sala -N- Contiene
+Contiene -1- Cine
+
 entity Formato {
     id_formato : INT <<key>>
     nombre : STRING
