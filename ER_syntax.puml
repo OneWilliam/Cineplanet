@@ -1,4 +1,5 @@
 @startchen cineplanet
+left to right direction
 entity Ciudad {
     id_ciudad : INT <<key>>
     nombre : STRING
@@ -7,6 +8,12 @@ entity Cine {
     id_ciudad : INT FK
     id_cine : INT <<key>>
 }
+relationship Se_encuentra {
+}
+
+Cine -1- Se_encuentra
+Se_encuentra -N- Ciudad
+
 entity Sala {
     id_cine : INT FK
     id_sala : INT <<key>>
