@@ -31,11 +31,25 @@ entity Formato {
     id_formato : INT <<key>>
     nombre : STRING
 }
+
+relationship Funciona {
+}
+
+Sala -N- Funciona
+Funciona -1- Formato
+
 entity Asiento {
     id_sala : INT PK
     fila : INT PK
     columna : INT PK
 }
+
+relationship Tiene {
+}
+
+Sala -1- Tiene
+Tiene -N- Asiento
+
 entity FuncionAsiento {
     id_funcionsala : INT FK
     fila : INT PK
