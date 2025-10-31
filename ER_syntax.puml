@@ -56,6 +56,7 @@ entity FuncionAsiento {
     columna : INT PK
     estado : INT FK
 }
+
 entity Dulceria {
     id_cine : INT FK
     id_dulceria : INT <<key>>
@@ -114,4 +115,23 @@ entity FuncionSala {
     id_funcion : INT PK
     id_sala : INT PK
 }
+
+relationship Asigna {
+}
+
+Funcion -1- Asigna
+Asigna -N- FuncionAsiento
+
+relationship Participa1 {
+}
+
+Funcion -1- Participa1
+Participa1 -N- FuncionSala
+
+relationship Participa2 {
+}
+
+Sala -1- Participa2
+Participa2 -N- FuncionSala
+
 @endchen
