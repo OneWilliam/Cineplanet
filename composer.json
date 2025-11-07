@@ -1,0 +1,17 @@
+{
+    "name": "cineplanet/app",
+    "description": "Proyecto PHP con Sli",
+    "type": "project",
+    "require": {
+        "slim/slim": "^4.15"
+    },
+    "require-dev": {
+        "robmorgan/phinx": "^0.16.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cineplanet\\App\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
