@@ -1,0 +1,56 @@
+name: Diagnóstico de conexión FTP
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Mostrar entorno
+        run: |
+          echo "Runner: $(uname -a)"
+          echo "Probando conexión a ${{ secrets.FTP_SERVER }}"
+
+      - name: Verificar resolución DNS
+        run: |
+          echo "🔍 DNS Lookup:"
+          nslookup ${{ secrets.FTP_SERVER }} || dig ${{ secrets.FTP_SERVER }}
+
+      - name: Probar conexión TCP (puerto 21 FTP)
+        run: |
+          echo "⚡ Probar FTP (puerto 21)"
+          nc -vz ${{ secrets.FTP_SERVER }} 21 || echo "❌ No se pudo conectar al puerto 21"
+
+      - name: Probar conexión TCP (puerto 22 SFTP)
+        run: |
+          echo "⚡ Probar SFTP (puerto 22)"
+          nc -vz ${{ secrets.FTP_SERVER }} 22 || echo "❌ No se pudo conectar al puerto 22"
+
+      - name: Probar conexión TCP (puerto 990 FTPS implícito)
+        run: |
+          echo "⚡ Probar FTPS (puerto 990)"
+          nc -vz ${{ secrets.FTP_SERVER }} 990 || echo "❌ No se pudo conectar al puerto 990"
+
+      - name: Intentar login FTP básico
+        run: |
+          echo "🧪 Probando conexión FTP simple..."
+          echo "user ${{ secrets.FTP_USERNAME }}" > ftp_cmds.txt
+          echo "pass ${{ secrets.FTP_PASSWORD }}" >> ftp_cmds.txt
+          echo "quit" >> ftp_cmds.txt
+          ftp -inv ${{ secrets.FTP_SERVER }} < ftp_cmds.txt || echo "❌ No se pudo autenticar FTP"
+
+      - name: Intentar login FTPS
+        run: |
+          echo "🧪 Probando conexión FTPS..."
+          lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ftps://${{ secrets.FTP_SERVER }} -e "ls; bye" || echo "❌ No se pudo autenticar FTPS"
+
+      - name: Intentar login SFTP
+        run: |
+          echo "🧪 Probando conexión SFTP..."
+          apt-get update -y && apt-get install -y openssh-client
+          sftp -oBatchMode=no -b - ${{ secrets.FTP_USERNAME }}@${{ secrets.FTP_SERVER }} <<EOF || echo "❌ No se pudo autenticar SFTP"
+          ls
+          bye
+          EOF
