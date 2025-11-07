@@ -11,8 +11,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Subir archivos al FTP (FTPS)
-        uses: SamKirkland/FTP-Deploy-Action@v4
+      - name: Subir archivos al FTP
+        uses: samkirkland/ftp-deploy-action@v4.3.6
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
