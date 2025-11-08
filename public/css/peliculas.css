@@ -1,0 +1,44 @@
+/* Estilos específicos para páginas de películas */
+
+/* Estilos para la lista de películas */
+.peliculas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.pelicula-card {
+    background: #004A8C;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.pelicula-card:hover {
+    transform: translateY(-5px);
+}
+
+.pelicula-title {
+    color: white;
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.pelicula-info {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+}
+
+.btn-comprar {
+    background-color: white;
+    color: #004A8C !important;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-weight: bold;
+}

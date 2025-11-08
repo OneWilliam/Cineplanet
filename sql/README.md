@@ -44,7 +44,5 @@ php vendor/bin/phinx rollback -t 0
 
 ## 📝 Notas
 
-- Las migraciones de Phinx (en `db/migrations/`) leen estos archivos SQL
-- Los seeds de Phinx (en `db/seeds/`) leen los archivos de la carpeta `seeds/`
 - La configuración de la base de datos se toma del archivo `.env`
 - Los nombres de archivos están numerados para mantener el orden de ejecución
