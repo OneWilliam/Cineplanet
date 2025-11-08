@@ -43,6 +43,8 @@ final class CrearStoredProcedures extends AbstractMigration
 
     public function down(): void
     {
+        $this->execute("DROP FUNCTION IF EXISTS buscarCiudadId");
+        $this->execute("DROP FUNCTION IF EXISTS buscarCineId");
         $this->execute("DROP PROCEDURE IF EXISTS insertarCiudad");
         $this->execute("DROP PROCEDURE IF EXISTS insertarCine");
         $this->execute("DROP PROCEDURE IF EXISTS insertarSala");

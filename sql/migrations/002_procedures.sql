@@ -1,13 +1,3 @@
-DROP PROCEDURE IF EXISTS insertarCiudad;
-DROP PROCEDURE IF EXISTS insertarCine;
-DROP PROCEDURE IF EXISTS insertarSala;
-DROP PROCEDURE IF EXISTS insertarFormato;
-DROP PROCEDURE IF EXISTS insertarPelicula;
-DROP PROCEDURE IF EXISTS insertarFuncion;
-DROP PROCEDURE IF EXISTS insertarHorario;
-DROP PROCEDURE IF EXISTS insertarEstado;
-DROP PROCEDURE IF EXISTS insertarPeliculaFormato;
-
 DELIMITER //
 CREATE PROCEDURE insertarCiudad(IN nombre VARCHAR(20))
 BEGIN
@@ -16,9 +6,24 @@ END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE insertarCine(IN nombre VARCHAR(20), IN id_ciudad INT)
+CREATE FUNCTION buscarCiudadId(p_nombre VARCHAR(20)) RETURNS INT
 BEGIN
-    INSERT INTO cine(nombre, id_ciudad) VALUES (nombre, id_ciudad);
+    DECLARE r_id int;
+    SELECT id_ciudad into r_id from ciudad d
+    WHERE LOWER(TRIM(d.nombre)) = LOWER(TRIM(p_nombre))
+    LIMIT 1;
+
+    RETURN r_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE insertarCine(IN c_nombre VARCHAR(20), IN ciudad VARCHAR(20))
+BEGIN
+    DECLARE v_id_ciudad INT;
+    SET v_id_ciudad = buscarCiudadId(ciudad);
+
+    INSERT INTO cine(nombre, id_ciudad) VALUES (c_nombre, v_id_ciudad);
 END //
 DELIMITER ;
 
@@ -29,10 +34,25 @@ BEGIN
 END //
 DELIMITER ;
 
+
 DELIMITER //
-CREATE PROCEDURE insertarSala(IN filas INT, IN columnas INT, IN id_formato INT, IN id_cine INT)
+CREATE FUNCTION buscarCineId(p_nombre VARCHAR(20)) RETURNS INT
 BEGIN
-    INSERT INTO sala(filas, columnas, id_formato, id_cine) VALUES (filas, columnas, id_formato, id_cine);
+    DECLARE r_id int;
+    SELECT id_cine into r_id from cine d
+    WHERE LOWER(TRIM(d.nombre)) = LOWER(TRIM(p_nombre))
+    LIMIT 1;
+
+    RETURN r_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE insertarSala(IN filas INT, IN columnas INT, IN id_formato INT, IN cine_nombre VARCHAR(20))
+BEGIN
+    DECLARE v_id_cine INT;
+    SET v_id_cine = buscarCineId(cine_nombre);
+    INSERT INTO sala(filas, columnas, id_formato, id_cine) VALUES (filas, columnas, id_formato, v_id_cine);
 END //
 DELIMITER ;
 
