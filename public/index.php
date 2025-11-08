@@ -43,14 +43,7 @@ $app->get("/peliculas", function (Request $request, Response $response, $args) {
     try {
         $db = \Cineplanet\App\Database::getConnection();
 
-        $stmt = $db->query("
-            SELECT pelicula_id, nombre, duracion, genero, clasificacion
-            FROM pelicula
-            ORDER BY nombre
-            LIMIT 20
-        ");
-
-        $peliculas = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $peliculas = \Cineplanet\App\Database::executeProcedure('listarPeliculas');
 
         return View::render($response, "peliculas/lista", [
             "peliculas" => $peliculas,

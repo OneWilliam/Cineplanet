@@ -8,7 +8,7 @@ final class CrearTablas extends AbstractMigration
 {
     public function up(): void
     {
-        $sqlFile = __DIR__ . "/../../sql/estructura_tablas.sql";
+        $sqlFile = __DIR__ . "/../../sql/migrations/001_estructura_tablas.sql";
         $sql = file_get_contents($sqlFile);
 
         if ($sql === false) {
