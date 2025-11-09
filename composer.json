@@ -1,6 +1,6 @@
 {
   "name": "cineplanet/app",
-  "description": "Proyecto PHP con Sli",
+  "description": "Proyecto PHP con Slim",
   "type": "project",
   "require": {
     "slim/slim": "^4.15",
