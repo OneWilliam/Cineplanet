@@ -1,0 +1,319 @@
+:root {
+    --primary: #ffffff;
+    --secondary: #004a8c;
+    --accent: #ffffff;
+    --light: #ffffff;
+    --dark: #141414;
+    --gray: #808080;
+    --header-height: 70px; /* Altura del header para cuando sea fixed */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Arial", sans-serif;
+    background-color: #ffffff;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    background: var(--primary);
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+}
+
+.header.scrolled {
+    background: var(--primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Header transparente solo en la página de inicio */
+body.inicio .header {
+    background: transparent;
+    color: white;
+}
+
+/* Asegurar que en otras páginas el header no sea transparente */
+body.peliculas .header,
+body.otra .header {
+    background: var(--primary);
+    color: var(--dark);
+}
+
+body.inicio .header.scrolled {
+    background: var(--primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header.scrolled .logo,
+.header.scrolled .nav-link {
+    color: var(--dark);
+}
+
+.header.scrolled .nav-link i {
+    color: var(--dark);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+/* En la página de inicio (header transparente), el logo es blanco por defecto */
+body.inicio .logo {
+    color: white;
+}
+
+body.inicio .logo img {
+    filter: brightness(0) invert(1); /* Logo blanco en la página de inicio */
+}
+
+/* En otras páginas (header blanco), el logo es negro por defecto */
+body.peliculas .logo,
+body.otra .logo {
+    color: var(--dark);
+}
+
+body.peliculas .logo img,
+body.otra .logo img {
+    filter: brightness(0) invert(0); /* Logo negro en otras páginas */
+}
+
+.header.scrolled .logo img {
+    filter: brightness(0) invert(0); /* Devuelve el logo a su color original cuando la navbar se vuelve blanca */
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+/* En la página de inicio (header transparente), los enlaces son blancos por defecto */
+body.inicio .nav-link {
+    color: white;
+}
+
+body.inicio .nav-link i {
+    color: white;
+    margin-right: 0.5rem;
+}
+
+/* En otras páginas (header blanco), los enlaces son negros por defecto */
+body.peliculas .nav-link,
+body.otra .nav-link {
+    color: var(--dark);
+}
+
+body.peliculas .nav-link i,
+body.otra .nav-link i {
+    color: var(--dark);
+    margin-right: 0.5rem;
+}
+
+.header.scrolled .nav-link {
+    color: var(--dark);
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header.scrolled .nav-link i {
+    color: var(--dark);
+}
+
+.main {
+    flex: 1;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 0; /* Por defecto 0 para permitir que el hero/carrusel se muestre detrás del header transparente */
+}
+
+/* En páginas distintas de la home, reservar espacio para el header fijo */
+body:not(.inicio) .main {
+    padding-top: var(
+        --header-height
+    ); /* Evitar que el contenido quede oculto por el header */
+}
+
+/* Ajustes para la página de inicio:
+   - Empujar visualmente el contenido hacia arriba para que el hero/carrusel quede debajo del header transparente
+   - Asegurar el stacking order para que el header quede por encima */
+body.inicio .inicio-content {
+    margin-top: calc(
+        -1 * var(--header-height)
+    ); /* subir el contenido visualmente para quedar detrás del header */
+    position: relative;
+    z-index: 0; /* contenido por debajo del header */
+}
+
+/* Mover específicamente el hero hacia arriba y colocarlo por debajo del header */
+body.inicio .hero-carousel {
+    margin-top: calc(-1 * var(--header-height));
+    position: relative;
+    z-index: 0;
+}
+
+/* Refuerzo: asegurar que el header esté por encima de todo */
+.header {
+    z-index: 2000;
+}
+
+/* Estilos generales de componentes */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary);
+    color: var(--secondary);
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #f40612;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--gray);
+}
+
+.btn-secondary:hover {
+    background-color: #666;
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--secondary);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+th {
+    background-color: var(--primary);
+    color: var(--secondary);
+}
+
+tr:hover {
+    background-color: rgba(229, 9, 20, 0.1);
+}
+
+/* Estilos para el footer */
+.footer {
+    background-color: var(--secondary);
+    color: white;
+    padding: 2rem 0 1rem;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    margin-bottom: 1.5rem;
+    min-width: 200px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    color: var(--accent);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid #444;
+    margin-top: 1rem;
+}

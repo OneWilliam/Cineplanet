@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS cineplanet;
-CREATE DATABASE cineplanet;
-USE cineplanet;
-
 CREATE TABLE ciudad (
 	id_ciudad INT AUTO_INCREMENT,
     nombre VARCHAR(20),
@@ -22,6 +18,25 @@ CREATE TABLE formato (
     PRIMARY KEY (id_formato)
 );
 
+CREATE TABLE pelicula (
+	id_pelicula INT AUTO_INCREMENT,
+    nombre VARCHAR(20),
+    duracion INT NOT NULL,
+    PRIMARY KEY (id_pelicula)
+);
+
+CREATE TABLE horario (
+	id_horario INT AUTO_INCREMENT,
+    hora_inicio TIME,
+    PRIMARY KEY (id_horario)
+);
+
+CREATE TABLE estado (
+	id_estado INT AUTO_INCREMENT,
+    estado VARCHAR(20),
+    PRIMARY KEY (id_estado)
+);
+
 CREATE TABLE sala (
 	id_sala INT AUTO_INCREMENT,
     filas INT,
@@ -33,13 +48,6 @@ CREATE TABLE sala (
     FOREIGN KEY (id_cine) REFERENCES cine(id_cine)
 );
 
-CREATE TABLE pelicula (
-	id_pelicula INT AUTO_INCREMENT,
-    nombre VARCHAR(20),
-    duracion INT NOT NULL,
-    PRIMARY KEY (id_pelicula)
-);
-
 CREATE TABLE peliculaformato (
 	id_pelicula INT NOT NULL,
     id_formato INT NOT NULL,
@@ -47,12 +55,6 @@ CREATE TABLE peliculaformato (
     PRIMARY KEY (id_pelicula, id_formato),
     FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula),
     FOREIGN KEY (id_formato) REFERENCES formato(id_formato)
-);
-
-CREATE TABLE horario (
-	id_horario INT AUTO_INCREMENT,
-    hora_inicio TIME,
-    PRIMARY KEY (id_horario)
 );
 
 CREATE TABLE funcion (
@@ -64,12 +66,6 @@ CREATE TABLE funcion (
     FOREIGN KEY (id_sala) REFERENCES sala(id_sala),
     FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula),
     FOREIGN KEY (id_horario) REFERENCES horario(id_horario)
-);
-
-CREATE TABLE estado (
-	id_estado INT AUTO_INCREMENT,
-    estado VARCHAR(20),
-    PRIMARY KEY (id_estado)
 );
 
 CREATE TABLE asiento (

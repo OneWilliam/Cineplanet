@@ -11,6 +11,32 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # Setup PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1' # Puedes ajustar la versión según tu proyecto
+          extensions: mbstring, xml, ctype, iconv, intl, mysql, openssl, tokenizer, xml
+
+      # Instalar Composer
+      - name: Install Composer
+        run: |
+          curl -sS https://getcomposer.org/installer | php
+          sudo mv composer.phar /usr/local/bin/composer
+
+      # Instalar dependencias
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      # Crear archivo .env
+      - name: Crear archivo .env
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
+        shell: bash
+
       - name: Subir archivos al FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
@@ -23,3 +49,4 @@ jobs:
             .git/**
             .github/**
             .gitignore
+            .env
