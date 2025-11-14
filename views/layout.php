@@ -13,6 +13,27 @@
         <link rel="stylesheet" href="<?= $page_css ?>">
     <?php endif; ?>
     <style id="dynamic-page-styles"></style>
+    <style>
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-account {
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 <?php
 $currentPath = parse_url($_SERVER["REQUEST_URI"] ?? "/", PHP_URL_PATH);
@@ -30,12 +51,17 @@ if ($currentPath === "/" || $currentPath === "/index.php") {
             <a href="/" class="logo">
                 <img src="/img/logo-cineplanet.svg" alt="Cineplanet Logo" style="height: 40px; margin-right: 10px;">
             </a>
-            <nav class="nav-links">
-                <a href="/" class="nav-link"><i class="fas fa-home"></i> Inicio</a>
-                <a href="/peliculas" class="nav-link"><i class="fas fa-film"></i> Películas</a>
-                <a href="#" class="nav-link"><i class="fas fa-calendar-alt"></i> Cartelera</a>
-                <a href="#" class="nav-link"><i class="fas fa-candy-cane"></i> Dulcería</a>
-            </nav>
+            <div class="nav-container">
+                <nav class="nav-links">
+                    <a href="/" class="nav-link"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="/peliculas" class="nav-link"><i class="fas fa-film"></i> Películas</a>
+                    <a href="#" class="nav-link"><i class="fas fa-calendar-alt"></i> Cartelera</a>
+                    <a href="#" class="nav-link"><i class="fas fa-candy-cane"></i> Dulcería</a>
+                </nav>
+                <nav class="nav-account">
+                    <a href="/cuenta" class="nav-link nav-cuenta"><i class="fas fa-user"></i> Mi Cuenta</a>
+                </nav>
+            </div>
         </div>
     </header>
 

@@ -8,6 +8,11 @@ require __DIR__ . "/../vendor/autoload.php";
 $dotenv = Dotenv::createImmutable(__DIR__ . "/..");
 $dotenv->load();
 
+// Iniciar sesión si no está iniciada
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $app = AppFactory::create();
 
 $app->setBasePath("");
