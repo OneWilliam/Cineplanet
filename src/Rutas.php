@@ -13,5 +13,6 @@ class Rutas
 
         $app->get("/", [$inicioController, 'index']);
         $app->get("/peliculas", [$inicioController, 'peliculas']);
+        $app->get("/peliculas/{id}", [$inicioController, 'peliculaDetalle']);
     }
 }

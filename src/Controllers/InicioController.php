@@ -124,4 +124,48 @@ class InicioController
             return $response->withStatus(500);
         }
     }
+
+    public function peliculaDetalle(Request $request, Response $response, $args)
+    {
+        $id = $args['id'] ?? null;
+
+        if (!$id) {
+            // Redirigir o mostrar error si no hay ID
+            $response = $response->withStatus(404);
+            return View::render($response, "error", [
+                "title" => "Película no encontrada",
+                "mensaje" => "La película solicitada no existe."
+            ]);
+        }
+
+        try {
+            $db = Database::getConnection();
+
+            // Obtener detalles de la película específica
+            // Nota: usando el mismo formato que listarPeliculas para consistencia
+            $stmt = $db->prepare("SELECT id_pelicula AS pelicula_id, nombre, duracion FROM pelicula WHERE id_pelicula = ?");
+            $stmt->execute([$id]);
+            $pelicula = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$pelicula) {
+                $response = $response->withStatus(404);
+                return View::render($response, "error", [
+                    "title" => "Película no encontrada",
+                    "mensaje" => "La película solicitada no existe."
+                ]);
+            }
+
+            return View::render($response, "peliculas/detalle", [
+                "title" => $pelicula['nombre'] . " - Cineplanet",
+                "pelicula" => $pelicula,
+                "page_css" => "/css/peliculas.css",
+            ]);
+        } catch (\Exception $e) {
+            $response = $response->withStatus(500);
+            return View::render($response, "error", [
+                "title" => "Error Interno",
+                "mensaje" => "Ocurrió un error al cargar la película."
+            ]);
+        }
+    }
 }
