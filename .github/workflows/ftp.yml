@@ -28,10 +28,11 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader
 
-      # Crear archivo .env
+      # Crear archivo .env en el entorno local antes del despliegue
       - name: Crear archivo .env
         run: |
-          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+          touch .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
           echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
@@ -49,4 +50,3 @@ jobs:
             .git/**
             .github/**
             .gitignore
-            .env
