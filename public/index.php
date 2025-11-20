@@ -21,9 +21,6 @@ $app->addRoutingMiddleware();
 
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
-require_once __DIR__ . "/../src/Database.php";
-require_once __DIR__ . "/../src/View.php";
-
 use Cineplanet\App\Rutas;
 
 Rutas::registrarRutas($app);
