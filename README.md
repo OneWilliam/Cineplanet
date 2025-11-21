@@ -2,6 +2,11 @@
 
 Este proyecto es una aplicación web para la gestión integral de las sedes de Cineplanet.
 
+## ⚠️ Cambios Importantes
+
+**Ver [CHANGES.md](CHANGES.md) para la lista completa de cambios recientes.**
+**Ver [SECURITY.md](SECURITY.md) para información sobre mejoras de seguridad.**
+
 ## 📊 Diagramas de casos de uso
 Los casos de uso clave están representados haciendo uso de PlantUML.
 

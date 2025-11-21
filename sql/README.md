@@ -46,3 +46,14 @@ php vendor/bin/phinx rollback -t 0
 
 - La configuración de la base de datos se toma del archivo `.env`
 - Los nombres de archivos están numerados para mantener el orden de ejecución
+
+## ⚠️ Importante: Cambios de Seguridad
+
+A partir de la migración `20251121000000_add_password_hash_column`, el sistema usa hash de contraseñas en lugar de texto plano.
+
+### Si tienes usuarios existentes:
+1. Ejecutar la migración añadirá la columna `password_hash`
+2. Los usuarios existentes necesitarán resetear sus contraseñas O
+3. Ejecutar un script para convertir contraseñas existentes a hash
+
+**No se proporciona script de conversión automática por seguridad. Se recomienda que los usuarios restablezcan sus contraseñas.**
