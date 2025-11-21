@@ -103,25 +103,16 @@ class InicioController
             $stmt->execute();
             $peliculas = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-            $hxRequest = $request->getHeaderLine("HX-Request");
-            if ($hxRequest === "true") {
-                return View::renderPartial($response, "peliculas/lista", [
-                    "peliculas" => $peliculas,
-                    "page_css" => "/css/peliculas.css",
-                ]);
-            } else {
-                return View::render($response, "peliculas/lista", [
-                    "peliculas" => $peliculas,
-                    "page_css" => "/css/peliculas.css",
-                ]);
-            }
+            return View::render($response, "peliculas/lista", [
+                "peliculas" => $peliculas,
+                "page_css" => "/css/peliculas.css",
+            ]);
         } catch (\Exception $e) {
-            $html =
-                '<div class="alert alert-danger">Error: ' .
-                htmlspecialchars($e->getMessage()) .
-                "</div>";
-            $response->getBody()->write($html);
-            return $response->withStatus(500);
+            error_log("Error loading movies: " . $e->getMessage());
+            return View::render($response, "error", [
+                "title" => "Error",
+                "mensaje" => "No se pudieron cargar las películas. Por favor, intenta más tarde.",
+            ]);
         }
     }
 
@@ -191,49 +182,59 @@ class InicioController
     public function procesarLogin(Request $request, Response $response, $args)
     {
         $data = $request->getParsedBody();
-        $email = $data['email'] ?? '';
+        $email = filter_var($data['email'] ?? '', FILTER_SANITIZE_EMAIL);
         $password = $data['password'] ?? '';
 
         // Validación básica
         if (empty($email) || empty($password)) {
-            // Aquí debería redirigir con un mensaje de error
-            return $response->withHeader('Location', '/cuenta')->withStatus(302);
+            return $response->withHeader('Location', '/login?error=missing_fields')->withStatus(302);
+        }
+        
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $response->withHeader('Location', '/login?error=invalid_email')->withStatus(302);
         }
 
         try {
             $db = Database::getConnection();
 
-            // Hash the password for comparison (in a real system, passwords should be hashed)
-            // For now, we'll store plain text passwords in the seed for testing
-            $stmt = $db->prepare("CALL autenticarUsuario(?, ?)");
-            $stmt->execute([$email, $password]);
+            // Get user by email first
+            $stmt = $db->prepare("SELECT id_usuario, nombre, email, password_hash FROM usuarios WHERE email = ? AND activo = 1");
+            $stmt->execute([$email]);
             $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+            
+            // Verify password using password_verify
+            if (!$user || !password_verify($password, $user['password_hash'] ?? '')) {
+                // Invalid credentials
+                return $response->withHeader('Location', '/login?error=invalid_credentials')->withStatus(302);
+            }
+            
+            // Get user role
+            $stmt = $db->prepare("SELECT r.nombre as rol_nombre FROM usuarios_roles ur JOIN roles r ON ur.id_rol = r.id_rol WHERE ur.id_usuario = ? LIMIT 1");
+            $stmt->execute([$user['id_usuario']]);
+            $roleData = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $user['rol_nombre'] = $roleData['rol_nombre'] ?? 'cliente';
 
-            if ($user) {
-                // Usuario autenticado correctamente
-                $_SESSION['user_id'] = $user['id_usuario'];
-                $_SESSION['user_nombre'] = $user['nombre'];
-                $_SESSION['user_email'] = $user['email'];
-                $_SESSION['user_rol'] = $user['rol_nombre'];
+            // Usuario autenticado correctamente
+            $_SESSION['user_id'] = $user['id_usuario'];
+            $_SESSION['user_nombre'] = $user['nombre'];
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_rol'] = $user['rol_nombre'];
 
-                // Actualizar el último acceso
-                $stmt = $db->prepare("CALL actualizarUltimoAcceso(?)");
-                $stmt->execute([$user['id_usuario']]);
+            // Actualizar el último acceso
+            $stmt = $db->prepare("UPDATE usuarios SET ultimo_acceso = NOW() WHERE id_usuario = ?");
+            $stmt->execute([$user['id_usuario']]);
 
-                // Redirigir según el rol del usuario
-                if ($user['rol_nombre'] === 'admin') {
-                    return $response->withHeader('Location', '/admin')->withStatus(302);
-                } else {
-                    return $response->withHeader('Location', '/')->withStatus(302);
-                }
+            // Redirigir según el rol del usuario
+            if ($user['rol_nombre'] === 'admin') {
+                return $response->withHeader('Location', '/admin')->withStatus(302);
             } else {
-                // Credenciales incorrectas
-                // Aquí debería redirigir con un mensaje de error
-                return $response->withHeader('Location', '/cuenta')->withStatus(302);
+                return $response->withHeader('Location', '/')->withStatus(302);
             }
         } catch (\Exception $e) {
-            // En caso de error, redirigir con mensaje
-            return $response->withHeader('Location', '/cuenta')->withStatus(302);
+            // Log error and redirect with message
+            error_log("Login error: " . $e->getMessage());
+            return $response->withHeader('Location', '/login?error=system_error')->withStatus(302);
         }
     }
 
@@ -248,21 +249,29 @@ class InicioController
     public function procesarRegister(Request $request, Response $response, $args)
     {
         $data = $request->getParsedBody();
-        $nombre = $data['nombre'] ?? '';
-        $apellido = $data['apellido'] ?? '';
-        $email = $data['email'] ?? '';
+        $nombre = trim($data['nombre'] ?? '');
+        $apellido = trim($data['apellido'] ?? '');
+        $email = filter_var($data['email'] ?? '', FILTER_SANITIZE_EMAIL);
         $password = $data['password'] ?? '';
         $confirm_password = $data['confirm_password'] ?? '';
 
         // Validación básica
         if (empty($nombre) || empty($email) || empty($password) || empty($confirm_password)) {
-            // Aquí debería redirigir con un mensaje de error
-            return $response->withHeader('Location', '/register')->withStatus(302);
+            return $response->withHeader('Location', '/register?error=missing_fields')->withStatus(302);
+        }
+        
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $response->withHeader('Location', '/register?error=invalid_email')->withStatus(302);
+        }
+        
+        // Validate password strength
+        if (strlen($password) < 8) {
+            return $response->withHeader('Location', '/register?error=weak_password')->withStatus(302);
         }
 
         if ($password !== $confirm_password) {
-            // Las contraseñas no coinciden
-            return $response->withHeader('Location', '/register')->withStatus(302);
+            return $response->withHeader('Location', '/register?error=password_mismatch')->withStatus(302);
         }
 
         try {
@@ -275,15 +284,22 @@ class InicioController
 
             if ($existingUser) {
                 // El email ya está en uso
-                return $response->withHeader('Location', '/register')->withStatus(302);
+                return $response->withHeader('Location', '/register?error=email_exists')->withStatus(302);
             }
 
-            // Insertar el nuevo usuario (en un sistema real, el password debería estar hasheado)
-            $stmt = $db->prepare("CALL registrarUsuario(?, ?, ?, ?, 1)"); // 1 = cliente role
-            $stmt->execute([$nombre, $apellido, $email, $password]);
+            // Hash the password before storing
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            
+            // Insert the new user with hashed password
+            $stmt = $db->prepare("INSERT INTO usuarios (nombre, apellido, email, password_hash, activo, fecha_registro) VALUES (?, ?, ?, ?, 1, NOW())");
+            $stmt->execute([$nombre, $apellido, $email, $passwordHash]);
 
             // Obtener el ID del nuevo usuario
             $userId = $db->lastInsertId();
+            
+            // Assign default role (cliente)
+            $stmt = $db->prepare("INSERT INTO usuarios_roles (id_usuario, id_rol) VALUES (?, (SELECT id_rol FROM roles WHERE nombre = 'cliente' LIMIT 1))");
+            $stmt->execute([$userId]);
 
             // Iniciar sesión para el nuevo usuario
             $_SESSION['user_id'] = $userId;
@@ -294,8 +310,9 @@ class InicioController
             // Redirigir a la página principal
             return $response->withHeader('Location', '/')->withStatus(302);
         } catch (\Exception $e) {
-            // En caso de error, redirigir con mensaje
-            return $response->withHeader('Location', '/register')->withStatus(302);
+            // Log error and redirect with message
+            error_log("Registration error: " . $e->getMessage());
+            return $response->withHeader('Location', '/register?error=registration_failed')->withStatus(302);
         }
     }
 

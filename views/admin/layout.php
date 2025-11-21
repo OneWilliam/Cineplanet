@@ -43,7 +43,9 @@
             
             <div class="admin-user">
                 <p>Bienvenido, <?= htmlspecialchars($_SESSION['user_nombre'] ?? 'Admin'); ?></p>
-                <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                <form method="POST" action="/logout" style="margin: 0;">
+                    <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+                </form>
             </div>
         </aside>
         

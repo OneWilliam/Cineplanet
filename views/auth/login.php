@@ -2,6 +2,18 @@
     <form class="login-form" method="POST" action="/login">
         <h2>Iniciar Sesión</h2>
 
+        <?php
+        $error = $_GET['error'] ?? '';
+        if ($error === 'invalid_credentials'): ?>
+            <div class="error-message">Email o contraseña incorrectos.</div>
+        <?php elseif ($error === 'missing_fields'): ?>
+            <div class="error-message">Por favor, completa todos los campos.</div>
+        <?php elseif ($error === 'invalid_email'): ?>
+            <div class="error-message">Por favor, introduce un email válido.</div>
+        <?php elseif ($error === 'system_error'): ?>
+            <div class="error-message">Error del sistema. Por favor, intenta más tarde.</div>
+        <?php endif; ?>
+
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
@@ -67,5 +79,14 @@
     .register-link {
         text-align: center;
         margin-top: 15px;
+    }
+
+    .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        border: 1px solid #f5c6cb;
     }
 </style>

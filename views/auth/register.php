@@ -2,9 +2,30 @@
     <form class="register-form" method="POST" action="/register">
         <h2>Crear Cuenta</h2>
 
+        <?php
+        $error = $_GET['error'] ?? '';
+        if ($error === 'email_exists'): ?>
+            <div class="error-message">Este email ya está registrado.</div>
+        <?php elseif ($error === 'missing_fields'): ?>
+            <div class="error-message">Por favor, completa todos los campos.</div>
+        <?php elseif ($error === 'invalid_email'): ?>
+            <div class="error-message">Por favor, introduce un email válido.</div>
+        <?php elseif ($error === 'weak_password'): ?>
+            <div class="error-message">La contraseña debe tener al menos 8 caracteres.</div>
+        <?php elseif ($error === 'password_mismatch'): ?>
+            <div class="error-message">Las contraseñas no coinciden.</div>
+        <?php elseif ($error === 'registration_failed'): ?>
+            <div class="error-message">Error al crear la cuenta. Por favor, intenta más tarde.</div>
+        <?php endif; ?>
+
         <div class="form-group">
-            <label for="nombre">Nombre Completo</label>
+            <label for="nombre">Nombre</label>
             <input type="text" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido">
         </div>
 
         <div class="form-group">
@@ -13,13 +34,13 @@
         </div>
 
         <div class="form-group">
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" required>
+            <label for="password">Contraseña (mínimo 8 caracteres)</label>
+            <input type="password" id="password" name="password" required minlength="8">
         </div>
 
         <div class="form-group">
             <label for="confirm_password">Confirmar Contraseña</label>
-            <input type="password" id="confirm_password" name="confirm_password" required>
+            <input type="password" id="confirm_password" name="confirm_password" required minlength="8">
         </div>
 
         <button type="submit" class="register-btn">Registrarse</button>
@@ -77,5 +98,14 @@
     .login-link {
         text-align: center;
         margin-top: 15px;
+    }
+
+    .error-message {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        border: 1px solid #f5c6cb;
     }
 </style>

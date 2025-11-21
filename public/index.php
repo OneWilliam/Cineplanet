@@ -8,8 +8,12 @@ require __DIR__ . "/../vendor/autoload.php";
 $dotenv = Dotenv::createImmutable(__DIR__ . "/..");
 $dotenv->load();
 
-// Iniciar sesión si no está iniciada
+// Configure secure session settings
 if (session_status() == PHP_SESSION_NONE) {
+    ini_set('session.cookie_httponly', '1');
+    ini_set('session.cookie_secure', '1'); // Requires HTTPS in production
+    ini_set('session.cookie_samesite', 'Strict');
+    ini_set('session.use_strict_mode', '1');
     session_start();
 }
 

@@ -28,5 +28,9 @@ class Rutas
         $app->get("/admin/peliculas", [$adminController, 'peliculas']);
         $app->get("/admin/cines", [$adminController, 'cines']);
         $app->get("/admin/usuarios", [$adminController, 'usuarios']);
+        // TODO: Implement these routes in the future
+        // $app->get("/admin/funciones", [$adminController, 'funciones']);
+        // $app->get("/admin/reportes", [$adminController, 'reportes']);
     }
+}
 }
