@@ -1,15 +1,23 @@
 RewriteEngine On
+RewriteBase /
 
-# Verificar primero si es un recurso estático que existe en public/
-RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|json|xml|map)$
-RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
-RewriteRule ^(.*)$ public/$1 [QSA,L]
+# Deshabilitar búsqueda automática de index
+DirectoryIndex disabled
 
-# Rutas API deben ser manejadas por Slim
-RewriteCond %{REQUEST_URI} ^/api/
-RewriteRule ^(.*)$ public/index.php [QSA,L]
+# Si alguien entra a /api sin barra, redirigir a /api/
+RewriteRule ^api$ /api/ [R=301,L]
 
-# Todas las demás rutas deben servir el index.html del SPA
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ public/index.html [QSA,L]
+# SOLO rutas /api/ y /api/* van a api.php (API)
+RewriteRule ^api/ api.php [L,QSA]
+
+# Servir archivos estáticos directamente (CSS, JS, imágenes, etc)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^.*$ - [L]
+
+# NO servir directorios directamente (comentado para forzar rewrite)
+# RewriteCond %{REQUEST_FILENAME} -d
+# RewriteRule ^.*$ - [L]
+
+# IMPORTANTE: Todo lo demás va al SPA (History API routing)
+# Esto incluye /, /peliculas, /perfil, etc.
+RewriteRule ^.*$ public/index.html [L]
