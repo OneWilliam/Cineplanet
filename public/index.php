@@ -15,6 +15,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 $app = AppFactory::create();
 
+// Configurar basePath vacío ya que todo se enruta desde la raíz del dominio
 $app->setBasePath("");
 
 $app->addRoutingMiddleware();

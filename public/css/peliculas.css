@@ -42,3 +42,45 @@
     margin-top: 0.5rem;
     font-weight: bold;
 }
+
+/* HTMX specific styles */
+.search-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #004A8C;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+    color: #333;
+}
+
+.htmx-indicator {
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.htmx-request .htmx-indicator {
+    display: inline;
+}
+
+.htmx-request {
+    opacity: 0.6;
+}
+
+/* Loading states */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to { transform: translateY(-50%) rotate(360deg); }
+}

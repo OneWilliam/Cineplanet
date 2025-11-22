@@ -1,3 +1,15 @@
 RewriteEngine On
-RewriteCond %{REQUEST_URI} !^/public/
-RewriteRule ^(.*)$ /public/$1 [L]
+
+# Verificar primero si es un recurso estático que existe en public/
+RewriteCond %{REQUEST_URI} \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|json|xml|map)$
+RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+RewriteRule ^(.*)$ public/$1 [QSA,L]
+
+# Rutas API deben ser manejadas por Slim
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^(.*)$ public/index.php [QSA,L]
+
+# Todas las demás rutas deben servir el index.html del SPA
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.html [QSA,L]

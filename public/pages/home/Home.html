@@ -1,0 +1,22 @@
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Bienvenido a Cineplanet</h1>
+        <p>La mejor experiencia de cine en Perú</p>
+        <div class="hero-actions">
+            <button class="btn btn-primary"
+                    hx-get="/api/movies"
+                    hx-target="#dynamic-content"
+                    hx-push-url="true">
+                Ver Cartelera
+            </button>
+            <button class="btn btn-outline">Comprar Ya</button>
+        </div>
+    </div>
+</section>
+
+<section class="featured-section">
+    <h2>Películas Destacadas</h2>
+    <div class="movie-grid">
+        {{movieCards}}
+    </div>
+</section>

@@ -1,0 +1,51 @@
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Bienvenido a Cineplanet</h1>
+        <p>La mejor experiencia de cine en Perú</p>
+        <div class="hero-actions">
+            <button class="btn btn-primary"
+                    hx-get="/api/movies"
+                    hx-target="#dynamic-content"
+                    hx-push-url="true">
+                Ver Cartelera
+            </button>
+            <button class="btn btn-outline">Comprar Ya</button>
+        </div>
+    </div>
+</section>
+
+<section class="featured-section">
+    <h2>Películas Destacadas</h2>
+    <div class="movie-grid">
+        <div class="movie-card">
+            <img src="/img/placeholder-movie.jpg" alt="Película" class="movie-poster">
+            <div class="movie-info">
+                <h3 class="movie-title">Interestelar</h3>
+                <p class="movie-meta">Duración: 169 min</p>
+                <div class="movie-actions">
+                    <button class="btn btn-primary"
+                            hx-get="/api/movie/1"
+                            hx-target="#dynamic-content"
+                            hx-push-url="true">
+                        Ver Detalles
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="movie-card">
+            <img src="/img/placeholder-movie.jpg" alt="Película" class="movie-poster">
+            <div class="movie-info">
+                <h3 class="movie-title">Top Gun: Maverick</h3>
+                <p class="movie-meta">Duración: 130 min</p>
+                <div class="movie-actions">
+                    <button class="btn btn-primary"
+                            hx-get="/api/movie/2"
+                            hx-target="#dynamic-content"
+                            hx-push-url="true">
+                        Ver Detalles
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

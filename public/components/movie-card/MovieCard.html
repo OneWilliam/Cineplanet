@@ -1,0 +1,15 @@
+<div class="movie-card">
+    <img src="{{imagen}}" alt="{{nombre}}" class="movie-poster">
+    <div class="movie-info">
+        <h3 class="movie-title">{{nombre}}</h3>
+        <p class="movie-meta">Duración: {{duracion}} min</p>
+        <div class="movie-actions">
+            <button class="btn btn-primary"
+                    hx-get="/api/movie/{{id}}"
+                    hx-target="#dynamic-content"
+                    hx-push-url="true">
+                Ver Detalles
+            </button>
+        </div>
+    </div>
+</div>

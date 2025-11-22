@@ -23,6 +23,7 @@ class Database
                     \PDO::ATTR_EMULATE_PREPARES => false,
                 ]);
             } catch (\PDOException $e) {
+                error_log("Database connection failed: " . $e->getMessage());
                 throw new \PDOException("Connection failed: " . $e->getMessage());
             }
         }
@@ -37,14 +38,41 @@ class Database
         return $stmt->fetchAll();
     }
 
+    public static function executeQuerySingle(string $sql, array $params = []): ?array
+    {
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute($params);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
+
     public static function executeProcedure(string $procedure, array $params = []): array
     {
         $placeholders = str_repeat('?,', count($params));
         $placeholders = rtrim($placeholders, ',');
         $sql = "CALL {$procedure}({$placeholders})";
-        
+
         $stmt = self::getConnection()->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchAll();
+    }
+
+    public static function executeProcedureSingle(string $procedure, array $params = []): ?array
+    {
+        $placeholders = str_repeat('?,', count($params));
+        $placeholders = rtrim($placeholders, ',');
+        $sql = "CALL {$procedure}({$placeholders})";
+
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute($params);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
+
+    public static function executeUpdate(string $sql, array $params = []): int
+    {
+        $stmt = self::getConnection()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->rowCount();
     }
 }
