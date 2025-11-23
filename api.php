@@ -1,19 +1,29 @@
 <?php
-// API Entry Point - index.php in root
+
+// Configuración de errores - desactivar en producción
+// https://www.php.net/manual/es/function.error-reporting.php
+error_reporting(E_ALL);
+// https://www.php.net/manual/es/function.ini-set.php
+ini_set("display_errors", 1);
+
+// Iniciar sesión para autenticación
+// https://www.php.net/manual/es/function.session-start.php
+session_start();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
-use Cineplanet\App\Controllers\AuthController;
-use Cineplanet\App\Controllers\MoviesController;
 
 require __DIR__ . "/vendor/autoload.php";
 
-// Load environment variables
+// Cargar variables de entorno con Dotenv
+// Cargar variables de entorno con Dotenv
+// https://github.com/vlucas/phpdotenv#usage
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Database connection
+// Variables de conexión a la base de datos
+// https://www.php.net/manual/es/pdo.construct.php
 $host = $_ENV["DB_HOST"] ?? "localhost";
 $dbname = $_ENV["DB_NAME"] ?? "cineplanet";
 $username = $_ENV["DB_USER"] ?? "root";
@@ -26,24 +36,22 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Create Slim app without container
+// Crear una instancia de la aplicación Slim
+// https://www.slimframework.com/docs/v4/start/installation.html
 $app = AppFactory::create();
-
-// Set base path for API routes
+// Establecer el path base de la API
+// https://www.slimframework.com/docs/v4/objects/application.html#setbasepath
 $app->setBasePath("/api");
 
-// Add the routing middleware
+// Middleware de Slim
+// https://www.slimframework.com/docs/v4/middleware/routing.html
 $app->addRoutingMiddleware();
-
-// Error middleware
+// Middleware de manejo de errores
+// https://www.slimframework.com/docs/v4/middleware/error-handling.html
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
-// Create controller instances
-$authController = new AuthController($pdo);
-$moviesController = new MoviesController($pdo);
-
-// API Routes (sin /api porque ya está en basePath)
-// Root API endpoint
+// Endpoint raíz de la API
+// https://www.slimframework.com/docs/v4/objects/router.html#get
 $app->get("/", function (Request $request, Response $response) {
     $response->getBody()->write(
         json_encode([
@@ -51,14 +59,14 @@ $app->get("/", function (Request $request, Response $response) {
             "version" => "1.0",
             "endpoints" => [
                 "GET /api/health" => "Health check",
-                "POST /api/login" => "User login",
-                "POST /api/register" => "User registration",
             ],
         ]),
     );
     return $response->withHeader("Content-Type", "application/json");
 });
 
+// Endpoint de chequeo de salud (health check)
+// https://www.slimframework.com/docs/v4/cookbook/retrieving-current-route.html
 $app->get("/health", function (Request $request, Response $response) {
     $response
         ->getBody()
@@ -66,22 +74,25 @@ $app->get("/health", function (Request $request, Response $response) {
     return $response->withHeader("Content-Type", "application/json");
 });
 
-// Auth routes
-$app->post("/login", [$authController, "login"]);
-$app->post("/register", [$authController, "register"]);
+// Cargar rutas desde archivos independientes en backend/Routes
+// Cada archivo define un grupo de rutas según el dominio (público, admin, usuario, auth)
+// https://www.slimframework.com/docs/v4/objects/router.html#grouping-routes
+foreach (["public", "admin", "auth", "user"] as $routeFile) {
+    $routePath = __DIR__ . "/backend/Routes/{$routeFile}.php";
+    if (file_exists($routePath)) {
+        $routeLoader = require $routePath;
+        if (is_callable($routeLoader)) {
+            $routeLoader($app, $pdo);
+        }
+    }
+}
 
-// Movies routes
-$app->get("/movies", [$moviesController, "getAll"]);
-$app->get("/movies/{id}", [$moviesController, "getById"]);
-
-// Fallback route for non-API requests - redirect to SPA
+// Ruta fallback para endpoints no encontrados
+// https://www.slimframework.com/docs/v4/cookbook/enable-cors.html#catch-all-options-request
 $app->any("/{routes:.+}", function (Request $request, Response $response) {
-    // For non-API routes, we should not reach the PHP backend
-    // This is just a safety fallback
     $response->getBody()->write(
         json_encode([
-            "error" =>
-                "API endpoint not found. This is the API backend, not the SPA frontend.",
+            "error" => "API endpoint no encontrado.",
         ]),
     );
     return $response
@@ -89,5 +100,6 @@ $app->any("/{routes:.+}", function (Request $request, Response $response) {
         ->withStatus(404);
 });
 
-// Run the app
+// Ejecutar la aplicación Slim
+// https://www.slimframework.com/docs/v4/start/installation.html#run-your-application
 $app->run();
