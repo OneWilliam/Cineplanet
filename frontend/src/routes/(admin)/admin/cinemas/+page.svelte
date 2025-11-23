@@ -1,0 +1,1 @@
+<h1>CINEMAS ADMIN</h1>

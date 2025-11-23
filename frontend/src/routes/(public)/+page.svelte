@@ -1,10 +1,10 @@
 <script>
     import { browser } from "$app/environment";
-    import FileUpload from "$lib/FileUpload.svelte";
 
     let movies = $state([]);
     let loading = $state(true);
     let error = $state(null);
+    let { data } = $props();
 
     $effect(() => {
         // Ensure this runs only in the browser
@@ -41,7 +41,9 @@
 
 <main class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Cartelera de Cine</h1>
-
+    <h2>
+        <a href="/peliculas"> Peliculas </a>
+    </h2>
     {#if loading}
         <p>Cargando películas...</p>
     {:else if error}
@@ -55,16 +57,17 @@
         <div
             class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
         >
-                  {#each movies as movie}
-                    <div class="border rounded-lg p-4 shadow">
-                      <h2 class="text-lg font-semibold">{movie.title}</h2>
-                      <p class="text-sm mt-2"><strong>Duración:</strong> {movie.duration} min</p>
-                    </div>
-                  {/each}
+            {#each movies as movie}
+                <div class="border rounded-lg p-4 shadow">
+                    <h2 class="text-lg font-semibold">{movie.title}</h2>
+                    <p class="text-sm mt-2">
+                        <strong>Duración:</strong>
+                        {movie.duration} min
+                    </p>
+                </div>
+            {/each}
         </div>
     {/if}
 
     <hr class="my-8" />
-
-    <FileUpload />
 </main>
