@@ -15,8 +15,14 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1' # Puedes ajustar la versión según tu proyecto
+          php-version: "8.1" # Puedes ajustar la versión según tu proyecto
           extensions: mbstring, xml, ctype, iconv, intl, mysql, openssl, tokenizer, xml
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
       # Instalar Composer
       - name: Install Composer
@@ -27,6 +33,16 @@ jobs:
       # Instalar dependencias
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader
+
+      # Instalar dependencias Node
+      - name: Install Node dependencies
+        run: npm install
+        working-directory: ./frontend
+
+      # Build del frontend
+      - name: Build frontend
+        run: npm run build:unix
+        working-directory: ./frontend
 
       # Crear archivo .env en el entorno local antes del despliegue
       - name: Crear archivo .env
@@ -50,3 +66,6 @@ jobs:
             .git/**
             .github/**
             .gitignore
+            **/node_modules/**
+            **/.vscode/**
+            **/.svelte-kit/**

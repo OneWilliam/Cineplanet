@@ -1,7 +1,9 @@
 .vscode
 .env
 /vendor/
-
 composer.lock
 
 Scripts/
+public/*
+!public/uploads/
+!public/uploads/**

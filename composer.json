@@ -12,7 +12,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Cineplanet\\App\\": "src/"
+      "Cineplanet\\App\\": "backend/"
     }
   },
   "minimum-stability": "stable"
