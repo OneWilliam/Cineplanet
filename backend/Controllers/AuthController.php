@@ -252,4 +252,35 @@ class AuthController
 
         return $response->withHeader("Content-Type", "application/json");
     }
+
+    /**
+     * Verificar estado de la sesión actual.
+     * Permite al frontend saber si hay sesión activa y obtener los datos del usuario.
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
+    public function checkSession(Request $request, Response $response)
+    {
+        if (isset($_SESSION["user_id"]) && isset($_SESSION["user_data"])) {
+            $user = $_SESSION["user_data"];
+            $response->getBody()->write(
+                json_encode([
+                    "success" => true,
+                    "logged_in" => true,
+                    "user" => $user,
+                ]),
+            );
+            return $response->withHeader("Content-Type", "application/json");
+        }
+        $response->getBody()->write(
+            json_encode([
+                "success" => true,
+                "logged_in" => false,
+                "user" => null,
+            ]),
+        );
+        return $response->withHeader("Content-Type", "application/json");
+    }
 }

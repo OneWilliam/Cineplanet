@@ -1,10 +1,17 @@
 <script>
     import { browser } from "$app/environment";
+    import { user, fetchUser } from "$lib/authStore.js";
+    import { onMount } from "svelte";
 
     let movies = $state([]);
     let loading = $state(true);
     let error = $state(null);
     let { data } = $props();
+
+    // Cargar usuario al montar la página
+    onMount(() => {
+        fetchUser();
+    });
 
     $effect(() => {
         // Ensure this runs only in the browser
@@ -41,6 +48,11 @@
 
 <main class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Cartelera de Cine</h1>
+    {#if $user}
+        <div class="mb-4 text-green-700 font-semibold">
+            ¡Bienvenido, {$user.nombre}!
+        </div>
+    {/if}
     <h2>
         <a href="/peliculas"> Peliculas </a>
     </h2>
