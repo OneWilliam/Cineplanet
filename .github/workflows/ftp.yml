@@ -41,7 +41,7 @@ jobs:
 
       # Build del frontend
       - name: Build frontend
-        run: npm run build
+        run: npm run build:unix
         working-directory: ./frontend
 
       # Crear archivo .env en el entorno local antes del despliegue
