@@ -1,23 +1,28 @@
-RewriteEngine On
-RewriteBase /
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
 
-# Deshabilitar búsqueda automática de index
-DirectoryIndex disabled
+  # --- API ---
+  # Route all /api/... requests to api.php
+  RewriteRule ^api/.*$ api.php [L]
 
-# Si alguien entra a /api sin barra, redirigir a /api/
-RewriteRule ^api$ /api/ [R=301,L]
+  # --- SvelteKit SPA ---
 
-# SOLO rutas /api/ y /api/* van a api.php (API)
-RewriteRule ^api/ api.php [L,QSA]
+  # First, check if a file is being requested directly from the public folder.
+  # This handles cases where the URL already contains /public/.
+  RewriteCond %{REQUEST_URI} ^/public/
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
 
-# Servir archivos estáticos directamente (CSS, JS, imágenes, etc)
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^.*$ - [L]
+  # If the request is for a file that exists in the actual /public/ directory
+  # (e.g., /_app/...), then rewrite the request to be from that directory.
+  RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+  RewriteRule ^(.*)$ /public/$1 [L]
 
-# NO servir directorios directamente (comentado para forzar rewrite)
-# RewriteCond %{REQUEST_FILENAME} -d
-# RewriteRule ^.*$ - [L]
-
-# IMPORTANTE: Todo lo demás va al SPA (History API routing)
-# Esto incluye /, /peliculas, /perfil, etc.
-RewriteRule ^.*$ public/index.html [L]
+  # If the request is not for an API route and not for an existing file,
+  # rewrite it to the SPA's entry point in the public folder.
+  # This allows SvelteKit's client-side router to handle the URL.
+  RewriteCond %{REQUEST_URI} !^/api/
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule .* /public/index.html [L]
+</IfModule>
