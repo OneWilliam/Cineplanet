@@ -6,6 +6,9 @@ error_reporting(E_ALL);
 // https://www.php.net/manual/es/function.ini-set.php
 ini_set("display_errors", 1);
 
+// Definir una constante para la raíz del proyecto
+define('PROJECT_ROOT', __DIR__);
+
 // Iniciar sesión para autenticación
 // https://www.php.net/manual/es/function.session-start.php
 session_start();
