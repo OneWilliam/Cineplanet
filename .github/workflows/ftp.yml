@@ -66,4 +66,6 @@ jobs:
             .git/**
             .github/**
             .gitignore
-            node_modules/**
+            **/node_modules/**
+            **/.vscode/**
+            **/.svelte-kit/**
