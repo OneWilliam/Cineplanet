@@ -1,5 +1,6 @@
 <script>
     import { browser } from "$app/environment";
+    import FileUpload from "$lib/FileUpload.svelte";
 
     let movies = $state([]);
     let loading = $state(true);
@@ -21,7 +22,6 @@
                 .then((data) => {
                     if (data.success) {
                         movies = data.data;
-                        console.log(movies);
                     } else {
                         throw new Error(
                             data.message ||
@@ -63,4 +63,8 @@
                   {/each}
         </div>
     {/if}
+
+    <hr class="my-8" />
+
+    <FileUpload />
 </main>

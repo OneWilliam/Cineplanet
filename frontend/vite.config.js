@@ -11,6 +11,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      "/uploads": {
+        target: "http://cineplanet.local.com",
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

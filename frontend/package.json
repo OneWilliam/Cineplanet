@@ -5,7 +5,9 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
+		"prebuild": "if exist ..\\public\\uploads ( move ..\\public\\uploads ..\\uploads_temp )",
 		"build": "vite build",
+		"postbuild": "if exist ..\\uploads_temp ( move ..\\uploads_temp ..\\public\\uploads )",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
