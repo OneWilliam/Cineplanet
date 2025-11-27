@@ -1,6 +1,8 @@
 <script>
     import "../../app.css";
     import favicon from "$lib/assets/favicon.svg";
+    import logo from "$lib/assets/cineplanet.png";
+    import Footer from "$lib/components/Footer.svelte";
     import { user, fetchUser, logout } from "$lib/authStore.js";
     import { onMount } from "svelte";
     import { get } from "svelte/store";
@@ -22,11 +24,16 @@
 </script>
 
 <svelte:head>
-    <link rel="icon" href={favicon} />
+    <link rel="icon" href={logo} />
+    <title>Cineplanet Perú I Lo mejor del cine y entretenimiento</title>
 </svelte:head>
 <nav class="border p-4 shadow">
     <a href="/peliculas"> Peliculas </a>
-    <button onclick={() => (showFlyout = !showFlyout)}>Cuenta</button>
+    <button
+        onclick={() => (showFlyout = !showFlyout)}
+        class="ml-4 px-3 py-1.5 rounded bg-indigo-600 text-white hover:bg-indigo-700"
+        >Cuenta</button
+    >
     {#if showFlyout}
         <div
             class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-10 p-4"
@@ -35,10 +42,7 @@
                 <div class="mb-2">
                     <span class="font-semibold">Hola, {$user.nombre}!</span>
                 </div>
-                <button
-                    class="w-full text-left text-red-600 hover:underline"
-                    onclick={handleLogout}
-                >
+                <button class="w-full text-left text-red-600 hover:underline">
                     Cerrar sesión
                 </button>
             {:else}
@@ -48,5 +52,8 @@
         </div>
     {/if}
 </nav>
-<h1>Public</h1>
-{@render children()}
+<main class="min-h-[60vh]">
+    <h1 class="text-xl font-semibold mb-4">Public</h1>
+    {@render children()}
+</main>
+<Footer />
