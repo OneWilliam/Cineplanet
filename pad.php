@@ -1,12 +1,5 @@
 <?php
 
-// Datos de conexión (los que te proporcionaron)
-$host = "ftp.arnolab.net";
-$user = "u914095763_g8";
-$pass = "bd954yUB";
-$dbname = "u914095763_g8";
-$port = 3306;
-
 // Conexión a la base de datos
 $conn = new mysqli($host, $user, $pass, $dbname, $port);
 
