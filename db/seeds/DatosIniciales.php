@@ -17,10 +17,9 @@ class DatosIniciales extends AbstractSeed
             );
         }
 
-        $statements = array_filter(
-            array_map('trim', explode(';', $sql)),
-            fn($stmt) => !empty($stmt)
-        );
+        // Use centralized SQL parser helper to split statements and handle optional DELIMITER blocks
+        require_once __DIR__ . "/../migrations/helpers/SqlMigrationHelper.php";
+        $statements = SqlMigrationHelper::splitSql($sql);
 
         foreach ($statements as $statement) {
             $this->execute($statement);

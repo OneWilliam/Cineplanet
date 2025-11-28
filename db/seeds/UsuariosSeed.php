@@ -35,15 +35,13 @@ final class UsuariosSeed extends AbstractSeed
             $sql,
         );
 
-        // Split by semicolon for regular SQL statements (no DELIMITER in this file, but just in case)
-        $statements = array_filter(
-            array_map("trim", explode(";", $sql)),
-            fn($stmt) => $stmt !== "",
-        );
+        // Use centralized SQL parser helper to split statements and handle optional DELIMITER blocks
+        require_once __DIR__ . "/../migrations/helpers/SqlMigrationHelper.php";
+        $statements = SqlMigrationHelper::splitSql($sql);
 
         foreach ($statements as $statement) {
             if (trim($statement) !== "") {
-                $this->execute($statement . ";");
+                $this->execute($statement);
             }
         }
     }

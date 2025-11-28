@@ -8,7 +8,8 @@ final class CrearTablaUsuariosRoles extends AbstractMigration
 {
     public function up(): void
     {
-        $sqlFile = __DIR__ . "/../../sql/migrations/004_estructura_usuarios.sql";
+        $sqlFile =
+            __DIR__ . "/../../sql/migrations/004_estructura_usuarios.sql";
         $sql = file_get_contents($sqlFile);
 
         if ($sql === false) {
@@ -17,16 +18,12 @@ final class CrearTablaUsuariosRoles extends AbstractMigration
             );
         }
 
-        // Split by semicolon for regular SQL statements (no DELIMITER in this file, but just in case)
-        $statements = array_filter(
-            array_map("trim", explode(";", $sql)),
-            fn($stmt) => $stmt !== "",
-        );
+        // Use centralized SQL parser helper to split statements and handle optional DELIMITER blocks
+        require_once __DIR__ . "/helpers/SqlMigrationHelper.php";
+        $statements = SqlMigrationHelper::splitSqlFile($sqlFile);
 
         foreach ($statements as $statement) {
-            if (trim($statement) !== '') {
-                $this->execute($statement . ";");
-            }
+            $this->execute($statement);
         }
     }
 

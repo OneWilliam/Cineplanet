@@ -15,22 +15,9 @@ final class AgregarProceduresListado extends AbstractMigration
                 "No se pudo leer el archivo SQL: $sqlFile",
             );
         }
-        $sql = preg_replace('/^\s*DELIMITER\s+\/\/\s*$/mi', "", $sql);
-        $sql = preg_replace('/^\s*DELIMITER\s*;\s*$/mi', "", $sql);
-        $sql = preg_replace(
-            "/END\s*\/\/\s*/mi",
-            "END; -- @@SPLIT@@" . PHP_EOL,
-            $sql,
-        );
-        $sql = preg_replace(
-            '/^(DROP\s+PROCEDURE\s+IF\s+EXISTS\s+\w+\s*;)\s*$/mi',
-            '$1 -- @@SPLIT@@',
-            $sql,
-        );
-        $statements = array_filter(
-            array_map("trim", explode("-- @@SPLIT@@", $sql)),
-            fn($s) => $s !== "",
-        );
+        // Use centralized SQL parser helper to split statements and handle DELIMITER blocks
+        require_once __DIR__ . "/helpers/SqlMigrationHelper.php";
+        $statements = SqlMigrationHelper::splitSqlFile($sqlFile);
         foreach ($statements as $statement) {
             $this->execute($statement);
         }
