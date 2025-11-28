@@ -1,0 +1,500 @@
+@font-face {
+    font-family: "cineplanet-icons";
+    font-display: block;
+    src:
+        url("/fonts/cineplanet-icons.eot") format("embedded-opentype"),
+        url("/fonts/cineplanet-icons.woff") format("woff"),
+        url("/fonts/cineplanet-icons.ttf") format("truetype");
+}
+
+.icon {
+    line-height: 1;
+}
+
+.icon:before {
+    font-family: cineplanet-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    vertical-align: top;
+}
+
+.cineplanet-icon_2d:before {
+    content: "\f101";
+}
+.cineplanet-icon_3d:before {
+    content: "\f102";
+}
+.cineplanet-icon_alert:before {
+    content: "\f103";
+}
+.cineplanet-icon_Apple_azul:before {
+    content: "\f104";
+}
+.cineplanet-icon_apple_foot:before {
+    content: "\f105";
+}
+.cineplanet-icon_apple_new:before {
+    content: "\f106";
+}
+.cineplanet-icon_apple_store:before {
+    content: "\f107";
+}
+.cineplanet-icon_Apple:before {
+    content: "\f108";
+}
+.cineplanet-icon_applefilled:before {
+    content: "\f109";
+}
+.cineplanet-icon_arrow-down:before {
+    content: "\f10a";
+}
+.cineplanet-icon_arrow-left-white:before {
+    content: "\f10b";
+}
+.cineplanet-icon_arrow-left:before {
+    content: "\f10c";
+}
+.cineplanet-icon_arrow-narrow-left:before {
+    content: "\f10d";
+}
+.cineplanet-icon_arrow-narrow-right:before {
+    content: "\f10e";
+}
+.cineplanet-icon_arrow-right-white:before {
+    content: "\f10f";
+}
+.cineplanet-icon_arrow-right:before {
+    content: "\f110";
+}
+.cineplanet-icon_arrow-up:before {
+    content: "\f111";
+}
+.cineplanet-icon_book:before {
+    content: "\f112";
+}
+.cineplanet-icon_burger:before {
+    content: "\f113";
+}
+.cineplanet-icon_calendar-hollow:before {
+    content: "\f114";
+}
+.cineplanet-icon_calendar:before {
+    content: "\f115";
+}
+.cineplanet-icon_canchita_confirmacion:before {
+    content: "\f116";
+}
+.cineplanet-icon_canchita:before {
+    content: "\f117";
+}
+.cineplanet-icon_cart:before {
+    content: "\f118";
+}
+.cineplanet-icon_check:before {
+    content: "\f119";
+}
+.cineplanet-icon_cineplanet-prime:before {
+    content: "\f11a";
+}
+.cineplanet-icon_circle:before {
+    content: "\f11b";
+}
+.cineplanet-icon_clock-time:before {
+    content: "\f11c";
+}
+.cineplanet-icon_clock:before {
+    content: "\f11d";
+}
+.cineplanet-icon_close_v2:before {
+    content: "\f11e";
+}
+.cineplanet-icon_close-modal-landing:before {
+    content: "\f11f";
+}
+.cineplanet-icon_close:before {
+    content: "\f120";
+}
+.cineplanet-icon_coffee:before {
+    content: "\f121";
+}
+.cineplanet-icon_complete_arrow_right:before {
+    content: "\f122";
+}
+.cineplanet-icon_contact:before {
+    content: "\f123";
+}
+.cineplanet-icon_copy:before {
+    content: "\f124";
+}
+.cineplanet-icon_cross:before {
+    content: "\f125";
+}
+.cineplanet-icon_entrance:before {
+    content: "\f126";
+}
+.cineplanet-icon_Facebook_azul:before {
+    content: "\f127";
+}
+.cineplanet-icon_facebook_foot:before {
+    content: "\f128";
+}
+.cineplanet-icon_facebook_new:before {
+    content: "\f129";
+}
+.cineplanet-icon_facebook:before {
+    content: "\f12a";
+}
+.cineplanet-icon_female:before {
+    content: "\f12b";
+}
+.cineplanet-icon_fiesta:before {
+    content: "\f12c";
+}
+.cineplanet-icon_film:before {
+    content: "\f12d";
+}
+.cineplanet-icon_filter:before {
+    content: "\f12e";
+}
+.cineplanet-icon_flip:before {
+    content: "\f12f";
+}
+.cineplanet-icon_food:before {
+    content: "\f130";
+}
+.cineplanet-icon_funciones:before {
+    content: "\f131";
+}
+.cineplanet-icon_gear:before {
+    content: "\f132";
+}
+.cineplanet-icon_gift:before {
+    content: "\f133";
+}
+.cineplanet-icon_google_store:before {
+    content: "\f134";
+}
+.cineplanet-icon_hc_actualizacion_hover:before {
+    content: "\f135";
+}
+.cineplanet-icon_hc_actualizacion:before {
+    content: "\f136";
+}
+.cineplanet-icon_hc_cart_hover:before {
+    content: "\f137";
+}
+.cineplanet-icon_hc_cart:before {
+    content: "\f138";
+}
+.cineplanet-icon_hc_colaborador_mensajero:before {
+    content: "\f139";
+}
+.cineplanet-icon_hc_promociones_hover:before {
+    content: "\f13a";
+}
+.cineplanet-icon_hc_promociones:before {
+    content: "\f13b";
+}
+.cineplanet-icon_hc_queries_hover:before {
+    content: "\f13c";
+}
+.cineplanet-icon_hc_queries:before {
+    content: "\f13d";
+}
+.cineplanet-icon_hc_sala_hover:before {
+    content: "\f13e";
+}
+.cineplanet-icon_hc_sala:before {
+    content: "\f13f";
+}
+.cineplanet-icon_hc_socio_hover:before {
+    content: "\f140";
+}
+.cineplanet-icon_hc_socio:before {
+    content: "\f141";
+}
+.cineplanet-icon_hc-arrow-down:before {
+    content: "\f142";
+}
+.cineplanet-icon_hc-arrow-full-right:before {
+    content: "\f143";
+}
+.cineplanet-icon_hc-breadcrumb-arrow-right:before {
+    content: "\f144";
+}
+.cineplanet-icon_hc-grey-thumb-up:before {
+    content: "\f145";
+}
+.cineplanet-icon_hc-search-icon:before {
+    content: "\f146";
+}
+.cineplanet-icon_hc-thumb-down:before {
+    content: "\f147";
+}
+.cineplanet-icon_hc-thumb-up:before {
+    content: "\f148";
+}
+.cineplanet-icon_hc-triangle-bullet-list:before {
+    content: "\f149";
+}
+.cineplanet-icon_heart-outline:before {
+    content: "\f14a";
+}
+.cineplanet-icon_heart:before {
+    content: "\f14b";
+}
+.cineplanet-icon_help-circle:before {
+    content: "\f14c";
+}
+.cineplanet-icon_help:before {
+    content: "\f14d";
+}
+.cineplanet-icon_information-outline:before {
+    content: "\f14e";
+}
+.cineplanet-icon_Instagram_azul:before {
+    content: "\f14f";
+}
+.cineplanet-icon_instagram_foot:before {
+    content: "\f150";
+}
+.cineplanet-icon_instagram_new:before {
+    content: "\f151";
+}
+.cineplanet-icon_Instagram:before {
+    content: "\f152";
+}
+.cineplanet-icon_InstagramCP:before {
+    content: "\f153";
+}
+.cineplanet-icon_less:before {
+    content: "\f154";
+}
+.cineplanet-icon_ley_chair_dis:before {
+    content: "\f155";
+}
+.cineplanet-icon_ley_chair_ocu:before {
+    content: "\f156";
+}
+.cineplanet-icon_ley_chair_sel:before {
+    content: "\f157";
+}
+.cineplanet-icon_list:before {
+    content: "\f158";
+}
+.cineplanet-icon_log:before {
+    content: "\f159";
+}
+.cineplanet-icon_login:before {
+    content: "\f15a";
+}
+.cineplanet-icon_male:before {
+    content: "\f15b";
+}
+.cineplanet-icon_map:before {
+    content: "\f15c";
+}
+.cineplanet-icon_marker-outline:before {
+    content: "\f15d";
+}
+.cineplanet-icon_marker:before {
+    content: "\f15e";
+}
+.cineplanet-icon_masbeneficios:before {
+    content: "\f15f";
+}
+.cineplanet-icon_message:before {
+    content: "\f160";
+}
+.cineplanet-icon_more:before {
+    content: "\f161";
+}
+.cineplanet-icon_parking:before {
+    content: "\f162";
+}
+.cineplanet-icon_payment:before {
+    content: "\f163";
+}
+.cineplanet-icon_play:before {
+    content: "\f164";
+}
+.cineplanet-icon_play2:before {
+    content: "\f165";
+}
+.cineplanet-icon_Playstore_azul:before {
+    content: "\f166";
+}
+.cineplanet-icon_playstore_new:before {
+    content: "\f167";
+}
+.cineplanet-icon_Playstore:before {
+    content: "\f168";
+}
+.cineplanet-icon_playstorefilled:before {
+    content: "\f169";
+}
+.cineplanet-icon_plus-outline:before {
+    content: "\f16a";
+}
+.cineplanet-icon_popcorn:before {
+    content: "\f16b";
+}
+.cineplanet-icon_prime_available:before {
+    content: "\f16c";
+}
+.cineplanet-icon_prime_ocupied:before {
+    content: "\f16d";
+}
+.cineplanet-icon_prime_selected:before {
+    content: "\f16e";
+}
+.cineplanet-icon_prime-text:before {
+    content: "\f16f";
+}
+.cineplanet-icon_quantity-border:before {
+    content: "\f170";
+}
+.cineplanet-icon_register:before {
+    content: "\f171";
+}
+.cineplanet-icon_restricted:before {
+    content: "\f172";
+}
+.cineplanet-icon_salas:before {
+    content: "\f173";
+}
+.cineplanet-icon_search:before {
+    content: "\f174";
+}
+.cineplanet-icon_seats:before {
+    content: "\f175";
+}
+.cineplanet-icon_shopping:before {
+    content: "\f176";
+}
+.cineplanet-icon_small-close:before {
+    content: "\f177";
+}
+.cineplanet-icon_smiley-happy:before {
+    content: "\f178";
+}
+.cineplanet-icon_smiley-sad:before {
+    content: "\f179";
+}
+.cineplanet-icon_socio_logo_bc:before {
+    content: "\f17a";
+}
+.cineplanet-icon_socio-not-results:before {
+    content: "\f17b";
+}
+.cineplanet-icon_theaters:before {
+    content: "\f17c";
+}
+.cineplanet-icon_ticket:before {
+    content: "\f17d";
+}
+.cineplanet-icon_tickets:before {
+    content: "\f17e";
+}
+.cineplanet-icon_Tiktok_azul:before {
+    content: "\f17f";
+}
+.cineplanet-icon_Tiktok:before {
+    content: "\f180";
+}
+.cineplanet-icon_timer:before {
+    content: "\f181";
+}
+.cineplanet-icon_trash:before {
+    content: "\f182";
+}
+.cineplanet-icon_twitter:before {
+    content: "\f183";
+}
+.cineplanet-icon_twitterX:before {
+    content: "\f184";
+}
+.cineplanet-icon_video:before {
+    content: "\f185";
+}
+.cineplanet-icon_vvcc_1:before {
+    content: "\f186";
+}
+.cineplanet-icon_vvcc_2:before {
+    content: "\f187";
+}
+.cineplanet-icon_vvcc_3:before {
+    content: "\f188";
+}
+.cineplanet-icon_vvcc_4:before {
+    content: "\f189";
+}
+.cineplanet-icon_vvcc_5:before {
+    content: "\f18a";
+}
+.cineplanet-icon_vvcc_6:before {
+    content: "\f18b";
+}
+.cineplanet-icon_vvcc1_big:before {
+    content: "\f18c";
+}
+.cineplanet-icon_vvcc2_big:before {
+    content: "\f18d";
+}
+.cineplanet-icon_vvcc3_big:before {
+    content: "\f18e";
+}
+.cineplanet-icon_vvcc4_big:before {
+    content: "\f18f";
+}
+.cineplanet-icon_vvcc5_big:before {
+    content: "\f190";
+}
+.cineplanet-icon_vvcc6_big:before {
+    content: "\f191";
+}
+.cineplanet-icon_whatsapp:before {
+    content: "\f192";
+}
+.cineplanet-icon_wheel_chair_light:before {
+    content: "\f193";
+}
+.cineplanet-icon_wheel_chair:before {
+    content: "\f194";
+}
+.cineplanet-icon_x_azul:before {
+    content: "\f195";
+}
+.cineplanet-icon_x_new:before {
+    content: "\f196";
+}
+.cineplanet-icon_x:before {
+    content: "\f197";
+}
+.cineplanet-icon_xtreme-laser:before {
+    content: "\f198";
+}
+.cineplanet-icon_xtreme-sound:before {
+    content: "\f199";
+}
+.cineplanet-icon_xtreme:before {
+    content: "\f19a";
+}
+.cineplanet-icon_YouTube_azul:before {
+    content: "\f19b";
+}
+.cineplanet-icon_youTube_new:before {
+    content: "\f19c";
+}
+.cineplanet-icon_youtube:before {
+    content: "\f19d";
+}
+.cineplanet-icon_youtubev2:before {
+    content: "\f19e";
+}
+.cineplanet-icon_zoom-in:before {
+    content: "\f19f";
+}
+.cineplanet-icon_zoom-out:before {
+    content: "\f1a0";
+}

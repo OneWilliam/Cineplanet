@@ -1,8 +1,10 @@
 <script>
     import { browser } from "$app/environment";
     import { user, fetchUser } from "$lib/authStore.js";
+    import Navbar from "$lib/components/Navbar.svelte";
     import { onMount } from "svelte";
 
+    /** @type {any[]} */
     let movies = $state([]);
     let loading = $state(true);
     let error = $state(null);
@@ -12,6 +14,19 @@
     onMount(() => {
         fetchUser();
     });
+
+    /**
+     * Tipo de retorno
+     * @param {any} u
+     * @returns {string}
+     */
+    function getName(u) {
+        try {
+            return u && u.nombre ? u.nombre : "";
+        } catch (e) {
+            return "";
+        }
+    }
 
     $effect(() => {
         // Ensure this runs only in the browser
@@ -46,11 +61,11 @@
     });
 </script>
 
-<main class="container mx-auto p-4">
+<main class="container mx-auto p-4 mt-10">
     <h1 class="text-2xl font-bold mb-4">Cartelera de Cine</h1>
     {#if $user}
         <div class="mb-4 text-green-700 font-semibold">
-            ¡Bienvenido, {$user.nombre}!
+            ¡Bienvenido, {getName($user)}!
         </div>
     {/if}
     <h2>

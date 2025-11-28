@@ -1,59 +1,35 @@
 <script>
     import "../../app.css";
-    import favicon from "$lib/assets/favicon.svg";
     import logo from "$lib/assets/cineplanet.png";
+    import Navbar from "$lib/components/Navbar.svelte";
     import Footer from "$lib/components/Footer.svelte";
-    import { user, fetchUser, logout } from "$lib/authStore.js";
+    import { fetchUser } from "$lib/authStore.js";
     import { onMount } from "svelte";
-    import { get } from "svelte/store";
-
-    let { children } = $props();
-    let showFlyout = $state(false);
-    // Desactiva SSR para SPA
+    import "$lib/fonts/cineplanet-icon.css";
     export const ssr = false;
 
-    // Cargar usuario al montar el layout
     onMount(() => {
         fetchUser();
     });
 
-    function handleLogout() {
-        logout();
-        showFlyout = false;
-    }
+    let { children } = $props();
 </script>
 
 <svelte:head>
     <link rel="icon" href={logo} />
     <title>Cineplanet Perú I Lo mejor del cine y entretenimiento</title>
+    <link
+        href="https://fonts.googleapis.com/css?family=Lato:300,400,700,800,900|Montserrat:300,400,500,600,700,800,900|Inter:300,400,700,800,900"
+        rel="stylesheet"
+    />
 </svelte:head>
-<nav class="border p-4 shadow">
-    <a href="/peliculas"> Peliculas </a>
-    <button
-        onclick={() => (showFlyout = !showFlyout)}
-        class="ml-4 px-3 py-1.5 rounded bg-indigo-600 text-white hover:bg-indigo-700"
-        >Cuenta</button
-    >
-    {#if showFlyout}
-        <div
-            class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-10 p-4"
-        >
-            {#if $user}
-                <div class="mb-2">
-                    <span class="font-semibold">Hola, {$user.nombre}!</span>
-                </div>
-                <button class="w-full text-left text-red-600 hover:underline">
-                    Cerrar sesión
-                </button>
-            {:else}
-                <a href="/autenticacion/login">Iniciar Sesion</a>
-                <a href="/autenticacion/registro">Registrarte</a>
-            {/if}
-        </div>
-    {/if}
-</nav>
-<main class="min-h-[60vh]">
-    <h1 class="text-xl font-semibold mb-4">Public</h1>
-    {@render children()}
+
+<Navbar />
+
+<main class="min-h-[60vh] bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {@render children()}
+    </div>
 </main>
+
 <Footer />
