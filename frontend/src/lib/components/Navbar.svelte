@@ -1,12 +1,46 @@
 <script>
+    import { onMount, onDestroy } from "svelte";
     import Cineplanet from "./Icons/Cineplanet.svelte";
     import CineplanetColor from "./Icons/CineplanetColor.svelte";
     import { user, logout } from "$lib/authStore.js";
+    import { page } from "$app/state";
 
-    let showAccountFlyout = false;
-    let showMobileMenu = false;
+    let currentPath = $derived(page.url.pathname);
+
+    let isHome = $derived(
+        currentPath === "/" ||
+            (typeof currentPath === "string" && currentPath.length === 0),
+    );
+
+    let isTransparentHeader = $state(true);
+    $effect(() => {
+        if (!isHome) {
+            isTransparentHeader = false;
+        } else {
+            isTransparentHeader = scrollY < 650;
+        }
+    });
+    let scrollY = $state(0);
+
+    let showAccountFlyout = $state(false);
+    let showMobileMenu = $state(false);
     // Castear el tipo a any
-    $: currentUser = /** @type {any} */ $user;
+    let currentUser = $derived(() => /** @type {any} */ $user);
+
+    onMount(() => {
+        scrollY = window.scrollY;
+
+        function handleScroll() {
+            scrollY = window.scrollY;
+            if (isHome) {
+                isTransparentHeader = scrollY < 650;
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    });
 
     function toggleAccount() {
         showAccountFlyout = !showAccountFlyout;
@@ -34,25 +68,28 @@
 </script>
 
 <header
-    class="fixed top-0 left-0 w-full z-50 bg-linear-to-b from-black/50 to-transparent shadow-md"
+    class={`fixed top-0 left-0 w-full z-50  transition-colors border-b   border-white  duration-200 ${isTransparentHeader ? "bg-linear-to-b  from-black/50 to-transparent shadow-md text-white" : "bg-white text-gray-800 shadow-md"}`}
 >
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-cesnter justify-between h-16">
+    <div class="max-w-[1070px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
             <!-- Logo -->
             <div class="flex items-center gap-4">
                 <a href="/" class="inline-block" aria-label="Inicio">
                     <span class="sr-only">Cineplanet</span>
-                    <div hidden class="logo--single md:hidden block h-4 w-auto">
-                        <Cineplanet />
-                    </div>
-                    <div class="logo--color h-9 w-auto">
-                        <CineplanetColor />
-                    </div>
+                    {#if isTransparentHeader}
+                        <div class="logo--color hidden md:block h-9 w-auto">
+                            <Cineplanet />
+                        </div>
+                    {:else}
+                        <div class="logo--color hidden md:block h-9 w-auto">
+                            <CineplanetColor />
+                        </div>
+                    {/if}
                 </a>
             </div>
 
             <nav
-                class="hidden md:flex items-center gap-6 text-sm text-white"
+                class={`hidden md:flex items-center gap-6  ${isTransparentHeader ? "text-white" : "text-gray-800"}`}
                 aria-label="Main navigation"
             >
                 <a href="/peliculas" class="hover:underline">Películas</a>
@@ -71,9 +108,9 @@
                 >
             </nav>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-4">
                 <button
-                    class="md:hidden text-white p-2 rounded hover:bg-white/10"
+                    class={`md:hidden p-2  rounded ${isTransparentHeader ? "text-white hover:bg-white/10" : "text-gray-800 hover:bg-gray-100"}`}
                     onclick={() => (showMobileMenu = !showMobileMenu)}
                     aria-label="Abrir menú"
                 >
@@ -94,14 +131,21 @@
                     </svg>
                 </button>
 
-                <div class="hidden md:flex items-center gap-4">
+                <div
+                    class={`hidden md:flex items-center gap-3  ${isTransparentHeader ? "text-white" : "text-gray-800"}`}
+                >
                     <div class="relative">
                         <button
-                            class="text-white hover:underline"
-                            onclick={toggleAccount}
+                            class={`flex  items-center gap-2 ${isTransparentHeader ? "text-white hover:text-white/80" : "text-gray-800 hover:text-gray-600"}`}
                             aria-haspopup="true"
-                            aria-expanded={showAccountFlyout}>Cuenta</button
+                            aria-label="Cuenta"
                         >
+                            <i
+                                class="icon cineplanet-icon_login text-[28px]"
+                                onclick={toggleAccount}
+                                aria-hidden="true"
+                            ></i>
+                        </button>
 
                         {#if showAccountFlyout}
                             <div
@@ -113,7 +157,6 @@
                                             >Hola, {getName($user)}!</span
                                         >
                                     </div>
-                                    <i class="icon cineplanet-icon_search"></i>
                                     <button
                                         class="w-full text-left text-red-600 hover:underline"
                                         onclick={handleLogout}
@@ -126,6 +169,7 @@
                                             class="text-gray-800 hover:underline"
                                             >Iniciar Sesión</a
                                         >
+
                                         <a
                                             href="/autenticacion/registro"
                                             class="text-gray-800 hover:underline"
@@ -136,23 +180,33 @@
                             </div>
                         {/if}
                     </div>
-
+                    <span
+                        aria-label="Buscar"
+                        class={` ${isTransparentHeader ? "text-white" : "text-gray-800"} hover:text-gray-600`}
+                    >
+                        <i
+                            class="icon cineplanet-icon_search text-[28px]"
+                            onclick={() => alert("MIssingggggggg")}
+                            aria-hidden="true"
+                        ></i>
+                    </span>
                     <a
                         href="/centro-de-ayuda"
-                        class="text-white hover:underline">Ayuda</a
+                        class={`flex items-center ${isTransparentHeader ? "text-white" : "text-gray-800"} `}
+                        aria-label="Ayuda"
                     >
-                    <button
-                        aria-label="Buscar"
-                        class="text-white hover:text-gray-300">🔍</button
-                    >
+                        <i
+                            class="icon cineplanet-icon_help text-[28px]"
+                            aria-hidden="true"
+                        ></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Mobile menu -->
     {#if showMobileMenu}
-        <div class="md:hidden bg-black/30 px-4 pb-4">
+        <div class="md:hidden bg-black/30 px-16 pb-14">
             <nav class="flex flex-col gap-2 text-white text-sm">
                 <a class="block hover:underline py-2" href="/peliculas"
                     >Películas</a

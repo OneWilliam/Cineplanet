@@ -5,6 +5,7 @@
     viewBox="0 0 214 50"
     class="injected-svg header--logo"
     data-src="/static/0bfdc57563b9ea90e0ae.svg"
+    style="width: 100%; height: 100%;"
 >
     <path
         fill="#FFF"

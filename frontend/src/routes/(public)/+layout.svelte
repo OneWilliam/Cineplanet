@@ -18,8 +18,10 @@
 <svelte:head>
     <link rel="icon" href={logo} />
     <title>Cineplanet Perú I Lo mejor del cine y entretenimiento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
-        href="https://fonts.googleapis.com/css?family=Lato:300,400,700,800,900|Montserrat:300,400,500,600,700,800,900|Inter:300,400,700,800,900"
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
         rel="stylesheet"
     />
 </svelte:head>
@@ -27,9 +29,7 @@
 <Navbar />
 
 <main class="min-h-[60vh] bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {@render children()}
-    </div>
+    {@render children()}
 </main>
 
 <Footer />

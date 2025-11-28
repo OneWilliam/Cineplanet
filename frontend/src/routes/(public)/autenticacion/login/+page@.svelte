@@ -1,4 +1,5 @@
 <script>
+    import "../../../../app.css";
     import { user, fetchUser } from "$lib/authStore.js";
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";

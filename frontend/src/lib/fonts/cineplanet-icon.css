@@ -8,7 +8,12 @@
 }
 
 .icon {
+    font: 28px;
     line-height: 1;
+    display: inline-block;
+    width: 1.2em;
+    text-align: center;
+    overflow: hidden;
 }
 
 .icon:before {
