@@ -10,8 +10,7 @@ return function ($app, $pdo) {
     // use Cineplanet\App\Controllers\User\ProfileController;
     // $profileController = new ProfileController($pdo);
 
-    $app->group('/user', function ($group) use ($authController) {
-        $group->post('/logout', [$authController, 'logout']);
+    $app->group("/user", function ($group) use ($authController) {
         // $group->get('/profile', [$profileController, 'getProfile']);
         // $group->post('/profile', [$profileController, 'updateProfile']);
         // Agrega aquí más rutas de usuario autenticado si es necesario

@@ -8,4 +8,5 @@ return function ($app, $pdo) {
     $app->post("/login", [$authController, "login"]);
     $app->post("/register", [$authController, "register"]);
     $app->get("/me", [$authController, "checkSession"]);
+    $app->post("/logout", [$authController, "logout"]);
 };
