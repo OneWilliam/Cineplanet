@@ -7,12 +7,12 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://cineplanet.local.com",
+        target: "http://localhost",
         changeOrigin: true,
         secure: false,
       },
       "/uploads": {
-        target: "http://cineplanet.local.com",
+        target: "http://localhost",
         changeOrigin: true,
         secure: false,
       },
