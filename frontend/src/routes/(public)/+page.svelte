@@ -89,10 +89,10 @@
             >
                 {#each movies as movie}
                     <div class="border rounded-lg p-4 shadow">
-                        <h2 class="text-lg font-semibold">{movie.title}</h2>
+                        <h2 class="text-lg font-semibold">{movie.titulo}</h2>
                         <p class="text-sm mt-2">
                             <strong>Duración:</strong>
-                            {movie.duration} min
+                            {movie.duracion} min
                         </p>
                     </div>
                 {/each}

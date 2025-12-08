@@ -2,6 +2,8 @@
   "scripts": {
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build:win",
-    "preview": "cd frontend && npm run preview"
+    "preview": "cd frontend && npm run preview",
+    "update": "cd frontend && npm update",
+    "install": "cd frontend && npm install"
   }
 }
