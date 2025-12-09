@@ -25,7 +25,7 @@
 </script>
 
 <main>
-    <h1>Prueba de API Mínima (Reactiva)</h1>
+    <h1>PELICULAS (CRUD)</h1>
 
     {#if isLoading}
         <p>Cargando datos de la API...</p>

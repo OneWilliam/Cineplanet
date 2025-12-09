@@ -1,7 +1,17 @@
 @import "tailwindcss";
 
-body {
-    font-family: "Lato", sans-serif;
-    font-size: 18px;
-    line-height: 1.3;
+table {
+  @apply w-full border-collapse mt-4;
+}
+
+th {
+  @apply bg-gray-200 text-left p-2 border;
+}
+
+td {
+  @apply p-2 border;
+}
+
+h1 {
+  @apply text-2xl font-bold text-gray-800 mb-4;
 }

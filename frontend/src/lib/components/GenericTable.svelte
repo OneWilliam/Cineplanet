@@ -1,4 +1,6 @@
 <script>
+    //Sin usar aún
+    
     // import { $props, $state, $effect } from 'svelte';
 
     let { 
