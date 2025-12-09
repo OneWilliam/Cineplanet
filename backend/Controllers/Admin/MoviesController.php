@@ -133,4 +133,65 @@ class MoviesController
                 ->withStatus(500);
         }
     }
+
+    /**
+     * Obtener todas las películas públicas.
+     * @param Request $request PSR-7 Request
+     * @param Response $response PSR-7 Response
+     * @return Response
+     * @see https://www.slimframework.com/docs/v4/objects/router.html#get
+     * @see https://www.php.net/manual/es/pdo.query.php
+     * @see https://www.php.net/manual/es/function.ob-get-level.php
+     * @see https://www.php.net/manual/es/function.ob-clean.php
+     * @see https://www.php.net/manual/es/function.json-encode.php
+     */
+    public function getAll(Request $request, Response $response)
+    {
+        try {
+            // Consulta todas las películas
+            $stmt = $this->pdo->query("
+                SELECT
+                    id_pelicula as id,
+                    nombre as title,
+                    duracion as duration
+                FROM pelicula
+                ORDER BY nombre
+            ");
+
+            $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Limpiar cualquier salida previa
+            if (ob_get_level()) {
+                ob_clean();
+            }
+
+            $response->getBody()->write(
+                json_encode([
+                    "success" => true,
+                    "data" => $movies,
+                ]),
+            );
+
+            return $response
+                ->withHeader("Content-Type", "application/json")
+                ->withHeader("Cache-Control", "no-cache");
+        } catch (\PDOException $e) {
+            // Limpiar cualquier salida previa
+            if (ob_get_level()) {
+                ob_clean();
+            }
+
+            $response->getBody()->write(
+                json_encode([
+                    "success" => false,
+                    "message" =>
+                        "Error al obtener películas: " . $e->getMessage(),
+                ]),
+            );
+
+            return $response
+                ->withHeader("Content-Type", "application/json")
+                ->withStatus(500);
+        }
+    }
 }

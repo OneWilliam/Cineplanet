@@ -29,41 +29,26 @@
     $effect(() => {
         loadProducts();
     });
+
+      let itemsPromise = loadData();
+
+  // Función auxiliar para formatear el JSON
+  function prettyPrintJson(data) {
+    // JSON.stringify(valor, replacer, espacio_de_indentacion)
+    // Usamos 'null' como replacer y '2' espacios para la indentación para una lectura clara.
+    return JSON.stringify(data, null, 2);
+  }
 </script>
 
-<div class="table-container">
-    {#if isLoading}
-        <p>Cargando datos...</p>
-    {:else if error}
-        <p class="error">Se produjo un error: {error}</p>
-    {:else if products.length === 0}
-        <p>No se encontraron registros.</p>
-    {:else}
-        <table>
-            <thead>
-                <tr>
-                    {#each columns as column}
-                        <th>{column.header}</th>
-                    {/each}
-                </tr>
-            </thead>
-            <tbody>
-                {#each products as product (product.id)}
-                    <tr>
-                        {#each columns as column}
-                            <td>{product[column.field]}</td> 
-                        {/each}
-                    </tr>
-                {/each}
-            </tbody>
-        </table>
-    {/if}
-</div>
+<main>
+  <h1>Datos Raw (en bloque)</h1>
 
-<style>
-    .table-container { padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background-color: #f2f2f2; }
-    .error { color: red; font-weight: bold; }
-</style>
+  {#await itemsPromise}
+    <p>Cargando datos raw...</p>
+  {:then items}
+    <!-- Usamos la etiqueta <pre> para preservar el formato -->
+    <pre>{prettyPrintJson(items)}</pre>
+  {:catch error}
+    <p>Ocurrió un error al cargar los datos raw: {error.message}</p>
+  {/await}
+</main>

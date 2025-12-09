@@ -1,37 +1,55 @@
 <script>
-    import Modal from "$lib/components/Modal.svelte";
-    import GenericTable from "$lib/components/GenericTable.svelte";
+    import { onMount } from "svelte";
 
-    // --- Lógica del Modal ---
-    let showModal = $state(false);
+    let data = null;
+    let error = null;
+    let isLoading = true;
 
-    function handleCloseModal() {
-        showModal = false;
-    }
+    const API_URL = "http://localhost/api/admin/movies";
 
-    const productColumns = [
-        { header: 'ID', field: 'id' },
-        { header: 'Nombre del Producto', field: 'nombre' },
-        { header: 'Precio', field: 'precio' }, // provisional
-    ];
+    onMount(async () => {
+        try {
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            data = await response.json();
+        } catch (e) {
+            error = e.message;
+        } finally {
+            isLoading = false;
+        }
+    });
 </script>
 
 <main>
-    <h1>Tabla Películas / Productos</h1>
-    <button on:click={() => showModal = true}>Añadir Película</button>
+    <h1>Prueba de API Mínima (Reactiva)</h1>
+
+    {#if isLoading}
+        <p>Cargando datos de la API...</p>
+    {:else if error}
+        <p style="color: red;">Error al conectar con la API: {error}</p>
+    {:else}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Duración</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {#each data.data as item}
+                    <tr>
+                        <td>{item.id}</td>
+                        <td>{item.title}</td>
+                        <td>{item.duration} min</td>
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+    {/if}
 </main>
-
-<Modal show={showModal} onClose={handleCloseModal} title="Formulario de Creación de Usuario">
-    <p>Introduce los datos del nuevo usuario a continuación</p>
-    <form>
-        <label>
-            Nombre: <input type="text" />
-        </label>
-        <button type="submit">Guardar</button>
-    </form>
-</Modal>
-
-<GenericTable 
-    apiEndpoint="http://localhost/api/productos" 
-    columns={productColumns} 
-/>
