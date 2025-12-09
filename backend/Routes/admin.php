@@ -13,8 +13,10 @@ return function ($app, $pdo) {
     ) {
         $group->post("/upload", [$uploadController, "uploadImage"]);
         $group->get("/uploads", [$uploadController, "getUploadedImages"]);
+        
         $group->post("/movies", [$moviesController, "create"]);
         $group->get("/movies", [$moviesController, "getAll"]);
+        $group->delete('/movies/{id}', [$moviesController, 'delete']);
         
         // Aquí puedes agregar más rutas de administración, por ejemplo:
         // $group->put('/movies/{id}', [$moviesController, 'update']);

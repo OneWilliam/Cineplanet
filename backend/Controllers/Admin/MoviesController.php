@@ -194,4 +194,89 @@ class MoviesController
                 ->withStatus(500);
         }
     }
+
+    /**
+     * Eliminar una película por ID (solo admin).
+     *
+     * @see https://www.slimframework.com/docs/v4/cookbook/route-parameters.html
+     * @see https://www.php.net/manual/es/pdo.prepare.php
+     * @see https://www.php.net/manual/es/pdostatement.bindparam.php
+     * @see https://www.php.net/manual/es/pdostatement.execute.php
+     * @see https://www.php.net/manual/es/function.ob-get-level.php
+     * @see https://www.php.net/manual/es/function.ob-clean.php
+     * @see https://www.php.net/manual/es/function.json-encode.php
+     *
+     * @param Request $request PSR-7 Request
+     * @param Response $response PSR-7 Response
+     * @param array $args Argumentos de la ruta (incluye 'id')
+     * @return Response
+     */
+    public function delete(Request $request, Response $response, array $args)
+{
+    $user_data = $request->getAttribute("user_data");
+
+    if (!$user_data) {
+        $response->getBody()->write(json_encode([
+            "success" => false,
+            "message" => "Autenticación requerida para eliminar películas",
+        ]));
+        return $response->withHeader("Content-Type", "application/json")->withStatus(401);
+    }
+
+    $userRole = $user_data["rol_nombre"] ?? null;
+    if ($userRole !== "admin") {
+        $response->getBody()->write(json_encode([
+            "success" => false,
+            "message" => "Permisos insuficientes para eliminar películas",
+        ]));
+        return $response->withHeader("Content-Type", "application/json")->withStatus(403);
+    }
+
+    // Obtener ID desde la URL /movies/{id}
+    $id = $args["id"] ?? null;
+
+    if (empty($id)) {
+        $response->getBody()->write(json_encode([
+            "success" => false,
+            "message" => "El ID de la película es obligatorio",
+        ]));
+        return $response->withHeader("Content-Type", "application/json")->withStatus(400);
+    }
+
+    try {
+        $stmt = $this->pdo->prepare("
+            DELETE FROM pelicula WHERE id_pelicula = :id
+        ");
+
+        $stmt->bindParam(":id", $id, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() === 0) {
+            $response->getBody()->write(json_encode([
+                "success" => false,
+                "message" => "No se encontró ninguna película con ese ID",
+            ]));
+            return $response->withHeader("Content-Type", "application/json")->withStatus(404);
+        }
+
+        $response->getBody()->write(json_encode([
+            "success" => true,
+            "message" => "Película eliminada exitosamente",
+        ]));
+        return $response->withHeader("Content-Type", "application/json")->withStatus(200);
+
+    } catch (\PDOException $e) {
+
+        if (ob_get_level()) {
+            ob_clean();
+        }
+
+        $response->getBody()->write(json_encode([
+            "success" => false,
+            "message" => "Error al eliminar película: " . $e->getMessage(),
+        ]));
+
+        return $response->withHeader("Content-Type", "application/json")->withStatus(500);
+    }
+}
 }
