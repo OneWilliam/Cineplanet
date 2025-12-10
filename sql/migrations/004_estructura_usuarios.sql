@@ -5,6 +5,16 @@ CREATE TABLE roles (
 );
 
 -- Insert default roles
+INSERT INTO ciudad(nombre) VALUES ("Tacna"), ("Lima");
+INSERT INTO cine(nombre, id_ciudad) VALUES ("CP Tacna", 1), ("CP Mall Plaza", 2);
+INSERT INTO empleado(nombre,
+    apellido,
+    dni,
+    celular,
+    id_cine) VALUES ("Juan", "Tomas", "99999999", "912345678", 1), ("Tammer", "Montly", "00000000", "12345678", 1);
+    
+INSERT INTO admin(nombre, password) VALUES ("admin1", 1), ("admin2", 2);
+
 INSERT INTO roles (nombre, descripcion) VALUES 
 ('cliente', 'Usuario cliente regular'),
 ('admin', 'Usuario administrador con acceso completo');

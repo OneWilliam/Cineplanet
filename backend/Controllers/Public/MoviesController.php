@@ -40,9 +40,9 @@ class MoviesController
             // Consulta todas las películas
             $stmt = $this->pdo->query("
                 SELECT
-                    id_pelicula as id,
-                    nombre as title,
-                    duracion as duration
+                    id_pelicula,
+                    nombre,
+                    duracion
                 FROM pelicula
                 ORDER BY nombre
             ");
@@ -103,9 +103,9 @@ class MoviesController
             // Consulta la película por ID
             $stmt = $this->pdo->prepare("
                 SELECT
-                    id_pelicula as id,
-                    nombre as title,
-                    duracion as duration
+                    id_pelicula,
+                    nombre,
+                    duracion
                 FROM pelicula
                 WHERE id_pelicula = :id
             ");
