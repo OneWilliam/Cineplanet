@@ -8,11 +8,8 @@
     // Cargar dulces desde el endpoint
     onMount(async () => {
         try {
-            const res = await fetch("/api/candy", { method: "GET" });
-            if (!res.ok) throw new Error("Error al cargar dulces");
-            candies = await res.json();
             loading = true;
-            fetch("/api/admin/candy")
+            fetch("/api/admin/snack")
                 .then((response) => {
                     if (!response.ok) {
                         throw new Error(
@@ -23,7 +20,7 @@
                 })
                 .then((data) => {
                     if (data.success) {
-                        movies = data.data;
+                        candies = data.data;
                     } else {
                         throw new Error(
                             data.message ||
