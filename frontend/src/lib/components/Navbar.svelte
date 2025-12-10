@@ -5,19 +5,20 @@
     import { user, logout } from "$lib/authStore.js";
     import { page } from "$app/state";
 
-    let currentPath = $derived(page.url.pathname);
-
-    let isHome = $derived(
-        currentPath === "/" ||
-            (typeof currentPath === "string" && currentPath.length === 0),
-    );
+    let p = $derived(page.url.pathname);
+    let isMovie = $derived(/\/peliculas\/.+/.test(p));
+    let isHome = $derived(p === "/" || isMovie);
 
     let isTransparentHeader = $state(true);
     $effect(() => {
-        if (!isHome) {
+        if (!isHome && !isMovie) {
             isTransparentHeader = false;
         } else {
-            isTransparentHeader = scrollY < 650;
+            if (isMovie) {
+                isTransparentHeader = scrollY < 360;
+            } else {
+                isTransparentHeader = scrollY < 650;
+            }
         }
     });
     let scrollY = $state(0);
@@ -32,7 +33,9 @@
 
         function handleScroll() {
             scrollY = window.scrollY;
-            if (isHome) {
+            if (isMovie) {
+                isTransparentHeader = scrollY < 360;
+            } else if (isHome) {
                 isTransparentHeader = scrollY < 650;
             }
         }
