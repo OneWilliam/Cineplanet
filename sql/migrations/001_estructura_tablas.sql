@@ -6,10 +6,10 @@ CREATE TABLE ciudad (
 
 CREATE TABLE cine (
 	id_cine INT AUTO_INCREMENT,
-    nombre VARCHAR(20),
+    nombre VARCHAR(30),
     id_ciudad INT NOT NULL,
     PRIMARY KEY (id_cine),
-    FOREIGN KEY (id_ciudad) REFERENCES ciudad(id_ciudad)
+    FOREIGN KEY (id_ciudad) REFERENCES ciudad(id_ciudad) ON DELETE CASCADE
 );
 
 CREATE TABLE formato (
@@ -44,8 +44,8 @@ CREATE TABLE sala (
     id_cine INT NOT NULL,
     id_formato INT NOT NULL,
     PRIMARY KEY (id_sala),
-    FOREIGN KEY (id_formato) REFERENCES formato(id_formato),
-    FOREIGN KEY (id_cine) REFERENCES cine(id_cine)
+    FOREIGN KEY (id_formato) REFERENCES formato(id_formato) ON DELETE CASCADE,
+    FOREIGN KEY (id_cine) REFERENCES cine(id_cine) ON DELETE CASCADE
 );
 
 CREATE TABLE peliculaformato (
@@ -53,8 +53,8 @@ CREATE TABLE peliculaformato (
     id_formato INT NOT NULL,
     precio INT NOT NULL,
     PRIMARY KEY (id_pelicula, id_formato),
-    FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula),
-    FOREIGN KEY (id_formato) REFERENCES formato(id_formato)
+    FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula) ON DELETE CASCADE,
+    FOREIGN KEY (id_formato) REFERENCES formato(id_formato) ON DELETE CASCADE
 );
 
 CREATE TABLE funcion (
@@ -63,9 +63,9 @@ CREATE TABLE funcion (
     id_horario INT NOT NULL,
     numero_asientos INT,
     PRIMARY KEY (id_sala, id_pelicula, id_horario),
-    FOREIGN KEY (id_sala) REFERENCES sala(id_sala),
-    FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula),
-    FOREIGN KEY (id_horario) REFERENCES horario(id_horario)
+    FOREIGN KEY (id_sala) REFERENCES sala(id_sala) ON DELETE CASCADE,
+    FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula) ON DELETE CASCADE,
+    FOREIGN KEY (id_horario) REFERENCES horario(id_horario) ON DELETE CASCADE
 );
 
 CREATE TABLE asiento (
@@ -76,17 +76,17 @@ CREATE TABLE asiento (
     columna INT NOT NULL,
     id_estado INT NOT NULL,
     PRIMARY KEY (id_sala, id_pelicula, id_horario, fila, columna),
-    FOREIGN KEY (id_sala) REFERENCES sala(id_sala),
-    FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula),
-    FOREIGN KEY (id_horario) REFERENCES horario(id_horario),
-    FOREIGN KEY (id_estado) REFERENCES estado(id_estado)
+    FOREIGN KEY (id_sala) REFERENCES sala(id_sala) ON DELETE CASCADE,
+    FOREIGN KEY (id_pelicula) REFERENCES pelicula(id_pelicula) ON DELETE CASCADE,
+    FOREIGN KEY (id_horario) REFERENCES horario(id_horario) ON DELETE CASCADE,
+    FOREIGN KEY (id_estado) REFERENCES estado(id_estado) ON DELETE CASCADE
 );
 
 CREATE TABLE dulceria (
 	id_dulceria INT NOT NULL,
     id_cine INT NOT NULL,
     PRIMARY KEY (id_dulceria),
-    FOREIGN KEY (id_cine) REFERENCES cine(id_cine)
+    FOREIGN KEY (id_cine) REFERENCES cine(id_cine) ON DELETE CASCADE
 );
 
 CREATE TABLE categoria (
@@ -99,8 +99,8 @@ CREATE TABLE dulceriacategoria (
 	id_categoria INT NOT NULL,
     id_dulceria INT NOT NULL,
     PRIMARY KEY (id_categoria, id_dulceria),
-    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria),
-    FOREIGN KEY (id_dulceria) REFERENCES dulceria(id_dulceria)
+    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria) ON DELETE CASCADE,
+    FOREIGN KEY (id_dulceria) REFERENCES dulceria(id_dulceria) ON DELETE CASCADE
 );
 
 CREATE TABLE dulce (
@@ -109,7 +109,7 @@ CREATE TABLE dulce (
     precio INT,
     id_categoria INT NOT NULL,
     PRIMARY KEY (id_dulce),
-    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria) ON DELETE CASCADE
 );
 
 CREATE TABLE dulceriaticket (
@@ -123,8 +123,8 @@ CREATE TABLE compradulceria (
     id_dulce INT NOT NULL,
     cantidad INT NOT NULL,
     PRIMARY KEY (id_dulceriaticket, id_dulce),
-    FOREIGN KEY (id_dulceriaticket) REFERENCES dulceriaticket(id_dulceriaticket),
-	FOREIGN KEY (id_dulce) REFERENCES dulce(id_dulce)
+    FOREIGN KEY (id_dulceriaticket) REFERENCES dulceriaticket(id_dulceriaticket) ON DELETE CASCADE,
+	FOREIGN KEY (id_dulce) REFERENCES dulce(id_dulce) ON DELETE CASCADE
 );
 
 CREATE TABLE cineticket (
@@ -141,8 +141,8 @@ CREATE TABLE compracine (
     columna INT NOT NULL,
     id_cineticket INT NOT NULL,
     PRIMARY KEY (id_sala, id_pelicula, id_horario, fila, columna),
-    FOREIGN KEY (id_sala, id_pelicula, id_horario, fila, columna) REFERENCES asiento(id_sala, id_pelicula, id_horario, fila, columna),
-	FOREIGN KEY (id_cineticket) REFERENCES cineticket(id_cineticket)
+    FOREIGN KEY (id_sala, id_pelicula, id_horario, fila, columna) REFERENCES asiento(id_sala, id_pelicula, id_horario, fila, columna) ON DELETE CASCADE,
+	FOREIGN KEY (id_cineticket) REFERENCES cineticket(id_cineticket) ON DELETE CASCADE
 );
 
 CREATE TABLE cliente (
@@ -160,7 +160,33 @@ CREATE TABLE boleta (
     id_cliente INT NOT NULL,
     preciototal INT NOT NULL,
     PRIMARY KEY (id_boleta),
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
-    FOREIGN KEY (id_cineticket) REFERENCES cineticket(id_cineticket),
-    FOREIGN KEY (id_dulceriaticket) REFERENCES dulceriaticket(id_dulceriaticket)
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente) ON DELETE CASCADE,
+    FOREIGN KEY (id_cineticket) REFERENCES cineticket(id_cineticket) ON DELETE CASCADE,
+    FOREIGN KEY (id_dulceriaticket) REFERENCES dulceriaticket(id_dulceriaticket) ON DELETE CASCADE
+);
+
+CREATE TABLE empleado (
+    id_empleado INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(20),
+    apellido VARCHAR(20),
+    dni VARCHAR(20),
+    celular VARCHAR(20),
+    id_cine INT NOT NULL,
+    PRIMARY KEY (id_empleado),
+    FOREIGN KEY (id_cine) REFERENCES cine(id_cine) ON DELETE CASCADE
+);
+
+CREATE TABLE admin (
+    id_admin INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id_admin) REFERENCES empleado(id_empleado) ON DELETE CASCADE,
+    PRIMARY KEY (id_admin)
+);
+
+CREATE TABLE adminlog (
+    id_log INT AUTO_INCREMENT PRIMARY KEY,
+    metodo VARCHAR(20),
+    informacion VARCHAR(255),
+    hora DATETIME
 );
