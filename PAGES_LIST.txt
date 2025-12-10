@@ -1,0 +1,84 @@
+PAGES LIST - generated 2025-12-09 (refreshed)
+
+FRONTEND PAGES
+- /
+- /peliculas
+- /autenticacion/login
+- /autenticacion/registro
+- /admin
+- /admin/cinemas
+- /admin-data
+ - /admin-data
+ - /admin/data
+
+BACKEND API ENDPOINTS (registered in backend/Routes)
+Public routes (no auth required unless middleware applied elsewhere):
+- GET /movies
+- GET /movies/{id}
+
+Auth routes:
+- POST /login
+- POST /register
+- GET /me
+- POST /logout
+
+Admin group routes (all prefixed with /admin and protected by RoleAuthMiddleware(["admin"])):
+- POST /admin/upload
+- GET  /admin/uploads
+- POST /admin/movie           (PeliculaController::create)
+- GET  /admin/movie           (Public\MoviesController::getAll)
+- GET  /admin/admin
+- POST /admin/admin
+- GET  /admin/cinema
+- POST /admin/cinema
+- GET  /admin/seat
+- POST /admin/seat
+- GET  /admin/receipt
+- POST /admin/receipt
+- GET  /admin/category
+- POST /admin/category
+- GET  /admin/cinematicket
+- POST /admin/cinematicket
+- GET  /admin/city
+- POST /admin/city
+- GET  /admin/customer
+- POST /admin/customer
+- GET  /admin/cinemapurchase
+- POST /admin/cinemapurchase
+- GET  /admin/shoppurchase
+- POST /admin/shoppurchase
+- GET  /admin/snack
+- POST /admin/snack
+- GET  /admin/shopcategory
+- POST /admin/shopcategory
+- GET  /admin/shop
+- POST /admin/shop
+- GET  /admin/shopticket
+- POST /admin/shopticket
+- GET  /admin/employee
+- POST /admin/employee
+- GET  /admin/state
+- POST /admin/state
+- GET  /admin/format
+- POST /admin/format
+- GET  /admin/screening
+- POST /admin/screening
+- GET  /admin/schedule
+- POST /admin/schedule
+- GET  /admin/movieformat
+- POST /admin/movieformat
+- GET  /admin/room
+- POST /admin/room
+
+USER group (requires auth roles "cliente" or "admin"):
+- /user (no concrete endpoints defined in `backend/Routes/user.php` — placeholders present)
+
+STATIC / PUBLIC FILES
+- /public/index.html
+- /public/robots.txt
+- /public/uploads/
+
+NOTES
+- The admin group routes above map to controllers under `backend/Controllers/Admin/` (e.g. `CiudadController` → `/admin/city`).
+- Frontend Svelte routes are in `frontend/src/routes/` (files with SvelteKit naming like `+page.svelte`).
+- If you want I can convert this to `PAGES_LIST.md` or commit the change.

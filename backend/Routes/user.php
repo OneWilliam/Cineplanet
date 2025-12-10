@@ -14,5 +14,5 @@ return function ($app, $pdo) {
         // $group->get('/profile', [$profileController, 'getProfile']);
         // $group->post('/profile', [$profileController, 'updateProfile']);
         // Agrega aquí más rutas de usuario autenticado si es necesario
-    })->add(new RoleAuthMiddleware([])); // Middleware para requerir autenticación
+    })->add(new RoleAuthMiddleware(["cliente", "admin"])); // Middleware para requerir autenticación
 };
