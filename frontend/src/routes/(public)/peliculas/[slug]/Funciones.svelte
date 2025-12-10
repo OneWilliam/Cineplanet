@@ -64,7 +64,7 @@
         // Build a route that maps to the slug/cine/func route
         // This uses the existing pattern /peliculas/:slug/:cine/:func. If slug isn't set, use the id.
         const slugOrId = pelicula?.slug ?? pelicula?.id;
-        return `/peliculas/${slugOrId}/${cinema.id}/${showtime.id}`;
+        return `/peliculas/${slugOrId}/${cinema.id}/${showtime.id}/asientos`;
     }
 
     function bookShowtime(cinema: cinemaFunciones, showtime: funcion) {
